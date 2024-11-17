@@ -53,18 +53,19 @@ class BeneficiaryResource extends Resource
 
                     ])->required()
                     ->disabledOn('edit'),
-
                 TextInput::make('project_name')->required()
                     ->disabledOn('edit'),
                 TextInput::make('partner')->required()
                     ->disabledOn('edit'),
-                TextInput::make('transfer_value')->required(),
+                TextInput::make('transfer_value')->required()
+                    ->numeric()
+                    ->mask(fn (TextInput\Mask $mask) => $mask->thousandsSeparator(',')),
                 TextInput::make('transfer_count')->required(),
                 DatePicker::make('project_start_date')->required()
                     ->disabledOn('edit'),
                 DatePicker::make('project_end_date')->required()
                     ->disabledOn('edit'),
-                DatePicker::make('recieve_date')->required(),
+                DatePicker::make('recieve_date')->required()->disabledOn('edit'),
                 Select::make('sector')->options([
                     'Health' => 'Health',
                     'Livelihood' => 'Livelihood',
@@ -105,7 +106,8 @@ class BeneficiaryResource extends Resource
                 //
             ])
             ->actions([
-                Tables\Actions\EditAction::make(),
+                Tables\Actions\EditAction::make()->modal(),
+                Tables\Actions\ViewAction::make()->modal(),
             ])
             ->bulkActions([
                 Tables\Actions\BulkActionGroup::make([
@@ -127,6 +129,7 @@ class BeneficiaryResource extends Resource
             'index' => Pages\ListBeneficiaries::route('/'),
             'create' => Pages\CreateBeneficiary::route('/create'),
             'edit' => Pages\EditBeneficiary::route('/{record}/edit'),
+            'view' => Pages\ViewBeneficiary::route('/{record}'),
         ];
     }
 }
