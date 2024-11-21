@@ -12,6 +12,7 @@ use Filament\Forms\Form;
 use Filament\Resources\Resource;
 use Filament\Tables;
 use Filament\Tables\Actions\ImportAction;
+use Filament\Tables\Filters\SelectFilter;
 use Filament\Tables\Table;
 
 class BeneficiaryResource extends Resource
@@ -108,6 +109,37 @@ class BeneficiaryResource extends Resource
             ])
             ->filters([
                 //
+                SelectFilter::make('sector')->options([
+                    'Health' => 'Health',
+                    'Livelihood' => 'Livelihood',
+                    'Protection' => 'Protection',
+                    'Disaster Management' => 'Disaster Management',
+                    'Wash' => 'Wash',
+                    'Risk Education' => 'Risk Education',
+                ]),
+                SelectFilter::make('governate')
+                    ->options([
+                        'Damascus' => 'Damascus',
+                        'Aleppo' => 'Aleppo',
+                        'Homs' => 'Homs',
+                        'Hama' => 'Hama',
+                        'Latakia' => 'Latakia',
+                        'Tartous' => 'Tartous',
+                        'As-Sweida' => 'As-Sweida',
+                        'Ar-Raqqa' => 'Ar-Raqqa',
+                        'Daraa' => 'Daraa',
+                        'Idleb' => 'Idleb',
+                        'Quneitra' => 'Quneitra',
+                        'Rural Damascus' => 'Rural Damascus',
+                        'Der-ezzor' => 'Der-ezzor',
+                        'Alhasaka' => 'Alhasaka',
+
+                    ]),
+                SelectFilter::make('modality')->options([
+                    'cash' => 'cash',
+                    'voucher' => 'voucher',
+                ]),
+
             ])
             ->actions([
                 Tables\Actions\EditAction::make()->modal(),

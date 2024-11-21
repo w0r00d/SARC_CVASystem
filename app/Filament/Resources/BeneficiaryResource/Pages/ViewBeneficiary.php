@@ -21,7 +21,6 @@ class ViewBeneficiary extends ViewRecord
                 Section::make('Beneficiary Personal Data')
                     ->icon('heroicon-s-user')
                     ->columns(3)
-
                     ->schema([
                         TextEntry::make('fullname'),
                         Infolists\Components\TextEntry::make('national_id'),
