@@ -25,15 +25,19 @@ class BeneficiaryResource extends Resource
         return $form
             ->schema([
                 TextInput::make('national_id')->required()
-                    ->length(11),
+                    ->length(11)
+                    ->numeric(),
                 TextInput::make('fullname')->required()
                     ->alpha(),
                 TextInput::make('phonenumber')->required()
-                    ->length(10),
+                    ->length(10)
+                    ->numeric(),
                 TextInput::make('recipient_name')->required()
                     ->alpha(),
-                TextInput::make('recipient_phone')->required(),
-                TextInput::make('recipient_nid')->required(),
+                TextInput::make('recipient_phone')->required()
+                    ->numeric(),
+                TextInput::make('recipient_nid')->required()
+                    ->numeric(),
                 Select::make('governate')
                     ->options([
                         'Damascus' => 'Damascus',
@@ -58,9 +62,9 @@ class BeneficiaryResource extends Resource
                 TextInput::make('partner')->required()
                     ->disabledOn('edit'),
                 TextInput::make('transfer_value')->required()
-                    ->numeric()
-                    ->mask(fn (TextInput\Mask $mask) => $mask->thousandsSeparator(',')),
-                TextInput::make('transfer_count')->required(),
+                    ->numeric(),
+                TextInput::make('transfer_count')->required()
+                    ->numeric(),
                 DatePicker::make('project_start_date')->required()
                     ->disabledOn('edit'),
                 DatePicker::make('project_end_date')->required()

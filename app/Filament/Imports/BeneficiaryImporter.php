@@ -73,7 +73,7 @@ class BeneficiaryImporter extends Importer
                     'Health' => 'Health',
                     'Livelihood' => 'Livelihood',
                     'Protection' => 'Protection',
-                    'Disaster Management' => 'Disaster       Management',
+                    'Disaster Management' => 'Disaster Management',
                     'Wash' => 'Wash',
                     'Risk Education' => 'Risk Education',
                 ]),
@@ -117,6 +117,7 @@ class BeneficiaryImporter extends Importer
             //     // Update existing records, matching them by `$this->data['column_name']`
             'national_id' => $this->data['national_id'],
             'sector' => $this->options['sector2'],
+            'governate' => $this->options['governate2'],
             'modality' => $this->options['modality2'],
             'project_name' => $this->options['project_name2'],
             'partner' => $this->options['partner2'],

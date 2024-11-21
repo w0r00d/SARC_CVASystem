@@ -11,6 +11,15 @@ return new class extends Migration
     public function up(): void
     {
         DB::unprepared('
+
+         CREATE TRIGGER beneficiary_name_history
+            BEFORE UPDATE ON beneficiaries
+            FOR EACH ROW
+            BEGIN
+              IF NEW.fullname != OLD.fullname THEN
+                SET NEW.h_fullname = OLD.fullname;
+            End IF;
+            END;
         CREATE TRIGGER beneficiary_id_history
         BEFORE UPDATE ON beneficiaries
         FOR EACH ROW
