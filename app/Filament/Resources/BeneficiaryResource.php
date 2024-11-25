@@ -14,6 +14,7 @@ use Filament\Tables;
 use Filament\Tables\Actions\ImportAction;
 use Filament\Tables\Filters\SelectFilter;
 use Filament\Tables\Table;
+use Illuminate\Database\Eloquent\Builder;
 
 class BeneficiaryResource extends Resource
 {
@@ -28,8 +29,7 @@ class BeneficiaryResource extends Resource
                 TextInput::make('national_id')->required()
                     ->length(11)
                     ->numeric(),
-                TextInput::make('fullname')->required()
-                    ->alpha(),
+                TextInput::make('fullname')->required(),
                 TextInput::make('phonenumber')->required()
                     ->length(10)
                     ->numeric(),
@@ -98,7 +98,10 @@ class BeneficiaryResource extends Resource
                     ->options([
                         'updateExisting' => false,
                     ]),
-            ])
+            ])->striped()
+           /* ->query(
+                Beneficiary::where('governate', auth()->user()->governate)
+            )*/
             ->columns([
                 //
                 Tables\Columns\TextColumn::make('fullname'),
@@ -107,6 +110,20 @@ class BeneficiaryResource extends Resource
                 Tables\Columns\TextColumn::make('sector'),
                 Tables\Columns\TextColumn::make('modality'),
             ])
+            ->query(Beneficiary::query())
+            ->modifyQueryUsing(function (Builder $query) {
+                if (auth()->user()->governate != 'all' && auth()->user()->sector != 'all') {
+                    return $query->where('governate', auth()->user()->governate)
+                        ->where('sector', auth()->user()->sector);
+                } elseif (auth()->user()->governate != 'all') {
+                    return $query->where('governate', auth()->user()->governate);
+
+                } elseif (auth()->user()->sector != 'all') {
+                    return $query->where('sector', auth()->user()->sector);
+                } else {
+                    return $query;
+                }
+            })
             ->filters([
                 //
                 SelectFilter::make('sector')->options([

@@ -26,6 +26,21 @@ class User extends Authenticatable
         'password',
     ];
 
+    public function role()
+    {
+        return $this->role;
+    }
+
+    public function governate()
+    {
+        return $this->governate;
+    }
+
+    public function sector()
+    {
+        return $this->sector;
+    }
+
     /**
      * The attributes that should be hidden for serialization.
      *

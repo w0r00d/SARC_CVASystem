@@ -37,13 +37,11 @@ class ViewBeneficiary extends ViewRecord
                             ->label('Phone Number Before update')
                             ->placeholder('not updated')
                             ->icon('heroicon-s-phone'),
-
                     ]),
 
                 Section::make('Recipient Personal Data')
                     ->icon('heroicon-s-user')
                     ->columns(3)
-
                     ->schema([
                         Infolists\Components\TextEntry::make('recipient_name'),
                         Infolists\Components\TextEntry::make('recipient_nid'),
@@ -64,7 +62,6 @@ class ViewBeneficiary extends ViewRecord
                 Section::make('Project Detail')
                     ->icon('heroicon-s-information-circle')
                     ->columns(3)
-
                     ->schema([
                         Infolists\Components\TextEntry::make('project_name'),
                         Infolists\Components\TextEntry::make('partner'),
@@ -93,7 +90,6 @@ class ViewBeneficiary extends ViewRecord
                         Infolists\Components\TextEntry::make('h_transfer_count')
                             ->placeholder('not updated')
                             ->label('Transfer Count Before update'),
-
                     ]),
                 Section::make('Update Details')
                     ->icon('heroicon-s-pencil-square')
