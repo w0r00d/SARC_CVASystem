@@ -11,6 +11,7 @@ use Filament\Resources\Resource;
 use Filament\Tables;
 use Filament\Tables\Filters\SelectFilter;
 use Filament\Tables\Table;
+use Illuminate\Database\Eloquent\Builder;
 
 class UserResource extends Resource
 {
@@ -86,6 +87,19 @@ class UserResource extends Resource
                     ->searchable()
                     ->sortable(),
             ])
+            ->modifyQueryUsing(function (Builder $query) {
+                if (auth()->user()->governate != 'all' && auth()->user()->sector != 'all') {
+                    return $query->where('governate', auth()->user()->governate)
+                        ->where('sector', auth()->user()->sector);
+                } elseif (auth()->user()->governate != 'all') {
+                    return $query->where('governate', auth()->user()->governate);
+
+                } elseif (auth()->user()->sector != 'all') {
+                    return $query->where('sector', auth()->user()->sector);
+                } else {
+                    return $query;
+                }
+            })
             ->filters([
 
                 SelectFilter::make('sector')
@@ -126,7 +140,9 @@ class UserResource extends Resource
                 ]),
             ])
             ->actions([
-                Tables\Actions\EditAction::make(),
+                Tables\Actions\EditAction::make()
+                    ->visible(fn (User $record): bool => auth()->user()->role === 'Super Admin'),
+
             ])
             ->bulkActions([
                 Tables\Actions\BulkActionGroup::make([
@@ -140,6 +156,13 @@ class UserResource extends Resource
         return [
             //
         ];
+    }
+
+    public static function canCreate(): bool
+    {
+
+        return auth()->user()->isAdmin();
+
     }
 
     public static function getPages(): array

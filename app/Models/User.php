@@ -41,6 +41,15 @@ class User extends Authenticatable
         return $this->sector;
     }
 
+    public function isAdmin()
+    {
+        if ($this->role == 'Super Admin') {
+            return true;
+        }
+
+        return false;
+    }
+
     /**
      * The attributes that should be hidden for serialization.
      *

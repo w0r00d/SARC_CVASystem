@@ -16,4 +16,9 @@ class EditBeneficiary extends EditRecord
             Actions\DeleteAction::make(),
         ];
     }
+
+    protected function getRedirectURL(): string
+    {
+        return $this->getResource()::getUrl('index');
+    }
 }

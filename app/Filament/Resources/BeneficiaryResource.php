@@ -70,7 +70,8 @@ class BeneficiaryResource extends Resource
                     ->disabledOn('edit'),
                 DatePicker::make('project_end_date')->required()
                     ->disabledOn('edit'),
-                DatePicker::make('recieve_date')->required()->disabledOn('edit'),
+                DatePicker::make('recieve_date')->required()
+                    ->disabledOn('edit'),
                 Select::make('sector')->options([
                     'Health' => 'Health',
                     'Livelihood' => 'Livelihood',
@@ -98,7 +99,9 @@ class BeneficiaryResource extends Resource
                     ->options([
                         'updateExisting' => false,
                     ]),
+
             ])->striped()
+            ->heading('Beneficiaries')
            /* ->query(
                 Beneficiary::where('governate', auth()->user()->governate)
             )*/
@@ -110,7 +113,7 @@ class BeneficiaryResource extends Resource
                 Tables\Columns\TextColumn::make('sector'),
                 Tables\Columns\TextColumn::make('modality'),
             ])
-            ->query(Beneficiary::query())
+           // ->query(Beneficiary::query())
             ->modifyQueryUsing(function (Builder $query) {
                 if (auth()->user()->governate != 'all' && auth()->user()->sector != 'all') {
                     return $query->where('governate', auth()->user()->governate)
