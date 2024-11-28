@@ -21,7 +21,7 @@
 
     <body class="antialiased">
         {{ $slot }}
-
+hello
         @filamentScripts
         @vite('resources/js/app.js')
     </body>

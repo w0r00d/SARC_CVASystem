@@ -41,6 +41,7 @@ class ViewBeneficiary extends ViewRecord
 
                 Section::make('Recipient Personal Data')
                     ->icon('heroicon-s-user')
+
                     ->columns(3)
                     ->schema([
                         Infolists\Components\TextEntry::make('recipient_name'),
