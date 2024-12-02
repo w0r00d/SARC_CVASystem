@@ -69,6 +69,7 @@ class BeneficiaryImporter extends Importer
     {
         return [
             Select::make('sector2')
+                ->label('Sector')
                 ->options([
                     'Health' => 'Health',
                     'Livelihood' => 'Livelihood',
@@ -76,35 +77,79 @@ class BeneficiaryImporter extends Importer
                     'Disaster Management' => 'Disaster Management',
                     'Wash' => 'Wash',
                     'Risk Education' => 'Risk Education',
-                ]),
+                ])
+                ->when(auth()->user()->isAdmin(), function (Select $select) {
+                    return
+                        Select::make('sector2')
+                            ->label('Sector')
+                            ->options([
+                                'Health' => 'Health',
+                                'Livelihood' => 'Livelihood',
+                                'Protection' => 'Protection',
+                                'Disaster Management' => 'Disaster Management',
+                                'Wash' => 'Wash',
+                                'Risk Education' => 'Risk Education',
+
+                            ]);
+                })->when(! auth()->user()->isAdmin(), function (Select $select) {
+                    return
+                        Select::make('sector2')
+                            ->label('Sector')
+                            ->options([
+                                auth()->user()->sector => auth()->user()->sector,
+                                0,
+                            ]);
+                }),
             Select::make('modality2')
+                ->label('Modality')
                 ->options([
                     'Cash' => 'Cash',
                     'eVoucher' => 'eVoucher',
                     'Voucher' => 'Voucher',
                 ]),
+
             Select::make('governate2')
                 ->options([
-                    'Damascus' => 'Damascus',
-                    'Aleppo' => 'Aleppo',
-                    'Homs' => 'Homs',
-                    'Hama' => 'Hama',
-                    'Latakia' => 'Latakia',
-                    'Tartous' => 'Tartous',
-                    'As-Sweida' => 'As-Sweida',
-                    'Ar-Raqqa' => 'Ar-Raqqa',
-                    'Daraa' => 'Daraa',
-                    'Idleb' => 'Idleb',
-                    'Quneitra' => 'Quneitra',
-                    'Rural Damascus' => 'Rural Damascus',
-                    'Der-ezzor' => 'Der-ezzor',
-                    'Alhasaka' => 'Alhasaka',
 
-                ]),
-            TextInput::make('project_name2'),
-            TextInput::make('partner2'),
-            DatePicker::make('project_start_date2'),
-            DatePicker::make('project_end_date2'),
+                ])
+                ->when(auth()->user()->isAdmin(), function (Select $select) {
+                    return
+                        Select::make('governate2')
+                            ->label('Governate')
+                            ->options([
+                                'Damascus' => 'Damascus',
+                                'Aleppo' => 'Aleppo',
+                                'Homs' => 'Homs',
+                                'Hama' => 'Hama',
+                                'Latakia' => 'Latakia',
+                                'Tartous' => 'Tartous',
+                                'As-Sweida' => 'As-Sweida',
+                                'Ar-Raqqa' => 'Ar-Raqqa',
+                                'Daraa' => 'Daraa',
+                                'Idleb' => 'Idleb',
+                                'Quneitra' => 'Quneitra',
+                                'Rural Damascus' => 'Rural Damascus',
+                                'Der-ezzor' => 'Der-ezzor',
+                                'Alhasaka' => 'Alhasaka',
+
+                            ]);
+                })->when(! auth()->user()->isAdmin(), function (Select $select) {
+                    return
+                        Select::make('governate2')
+                            ->label('Governate')
+                            ->options([
+                                auth()->user()->governate => auth()->user()->governate,
+
+                            ]);
+                }),
+            TextInput::make('project_name2')
+                ->label('Project Name'),
+            TextInput::make('partner2')
+                ->label('Partner'),
+            DatePicker::make('project_start_date2')
+                ->label('Project Start Date'),
+            DatePicker::make('project_end_date2')
+                ->label('Project End Date'),
             //  Checkbox::make('updateExisting')
             //   ->label('Update existing records'),
 
