@@ -56,7 +56,6 @@ class BeneficiaryResource extends Resource
                         'Rural Damascus' => 'Rural Damascus',
                         'Der-ezzor' => 'Der-ezzor',
                         'Alhasaka' => 'Alhasaka',
-
                     ])->required()
                     ->disabledOn('edit'),
                 TextInput::make('project_name')->required()
