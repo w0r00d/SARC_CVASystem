@@ -156,6 +156,12 @@ class BeneficiaryImporter extends Importer
         ];
     }
 
+    public function beforeCreate(): void
+    {
+        $data = $this->data['fullname'];
+        dump($data);
+    }
+
     public function resolveRecord(): ?Beneficiary
     {
         return Beneficiary::firstOrNew([
