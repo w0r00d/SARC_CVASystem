@@ -156,12 +156,6 @@ class BeneficiaryImporter extends Importer
         ];
     }
 
-    public function beforeCreate(): void
-    {
-        $data = $this->data['fullname'];
-        dump($data);
-    }
-
     public function resolveRecord(): ?Beneficiary
     {
         return Beneficiary::firstOrNew([
@@ -178,6 +172,14 @@ class BeneficiaryImporter extends Importer
         ]);
 
         return new Beneficiary;
+    }
+
+    public function beforeCreate(): void
+    {
+        //     $data = $this->data;
+        dump($this->data);
+        //   $options = $this->options;
+        dump($this->options);
     }
 
     public static function getCompletedNotificationBody(Import $import): string
