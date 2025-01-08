@@ -3,7 +3,9 @@
 namespace App\Filament\Resources\BeneficiaryResource\Pages;
 
 use App\Filament\Resources\BeneficiaryResource;
+use App\Models\Beneficiary;
 use Filament\Infolists;
+use Filament\Infolists\Components\RepeatableEntry;
 use Filament\Infolists\Components\Section;
 use Filament\Infolists\Components\TextEntry;
 use Filament\Infolists\Infolist;
@@ -100,6 +102,29 @@ class ViewBeneficiary extends ViewRecord
                         Infolists\Components\TextEntry::make('created_at')->icon('heroicon-s-calendar-days'),
 
                     ]),
+                Section::make('Duplicates')
+                    ->icon('heroicon-s-square-3-stack-3d')
+                    ->columns(3)
+                    ->schema([
+                        Infolists\Components\TextEntry::make('Number of duplicates')->icon('heroicon-s-chart-bar')
+                            ->state(function (Beneficiary $record): int {
+                                return $record->get_dups_count();
+                            }
+
+                            ),
+
+                    ]),
+                RepeatableEntry::make('comments')
+                    ->schema([
+                        TextEntry::make('rname')
+                            ->state(function (Beneficiary $record) {
+
+                                return $record->get_dups();
+                            }
+                            ),
+
+                    ])
+                    ->columns(2),
             ]);
     }
 }

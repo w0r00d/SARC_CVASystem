@@ -9,6 +9,7 @@ use Filament\Actions\Imports\Models\Import;
 use Filament\Forms\Components\DatePicker;
 use Filament\Forms\Components\Select;
 use Filament\Forms\Components\TextInput;
+use Illuminate\Support\Facades\DB;
 
 class BeneficiaryImporter extends Importer
 {
@@ -177,9 +178,13 @@ class BeneficiaryImporter extends Importer
     public function beforeCreate(): void
     {
         //     $data = $this->data;
-        dump($this->data);
+        $nid = $this->data['national_id'];
+        $d = DB::table('beneficiaries')->where('national_id', 'like', $nid)->count();
         //   $options = $this->options;
-        dump($this->options);
+
+        if ($d) {
+            dump($d);
+        }
     }
 
     public static function getCompletedNotificationBody(Import $import): string
