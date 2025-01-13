@@ -102,9 +102,7 @@ class BeneficiaryResource extends Resource
 
             ])->striped()
             ->heading('Beneficiaries')
-           /* ->query(
-                Beneficiary::where('governate', auth()->user()->governate)
-            )*/
+
             ->columns([
                 //
                 Tables\Columns\TextColumn::make('fullname'),
