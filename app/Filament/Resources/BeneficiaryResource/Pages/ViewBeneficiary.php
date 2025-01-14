@@ -108,23 +108,13 @@ class ViewBeneficiary extends ViewRecord
                     ->schema([
                         Infolists\Components\TextEntry::make('Number of duplicates')->icon('heroicon-s-chart-bar')
                             ->state(function (Beneficiary $record): int {
-                                return $record->get_dups_count();
+                                return $record->getCount();
                             }
 
                             ),
 
                     ]),
-                RepeatableEntry::make('comments')
-                    ->schema([
-                        TextEntry::make('rname')
-                            ->state(function (Beneficiary $record) {
-
-                                return $record->get_dups();
-                            }
-                            ),
-
-                    ])
-                    ->columns(2),
+              
             ]);
     }
 }

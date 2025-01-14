@@ -23,4 +23,11 @@ class BeneficiaryView extends Model
         return $d;
 
     }
+
+    public  function checkRecord() {
+
+        if(BeneficiaryView::where('national_id', $this->national_id)->count()>1)
+        return true;
+    return false;
+    }
 }

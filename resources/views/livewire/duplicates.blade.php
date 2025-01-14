@@ -3,12 +3,12 @@
 
     @if($this->changeQ)
 
-    <h1> Showing Only Pending </h1>
+    
+    <h1> Showing Duplicates </h1>
 
     @else
 
-    <h1> Showing Duplicates </h1>
-
+    <h1> Showing Only Pending </h1>
     @endif
 
     {{$this->table}}
