@@ -15,7 +15,6 @@ use Filament\Tables\Actions\ImportAction;
 use Filament\Tables\Filters\SelectFilter;
 use Filament\Tables\Table;
 use Illuminate\Database\Eloquent\Builder;
-use Illuminate\Support\Facades\DB;
 
 class BeneficiaryResource extends Resource
 {
@@ -151,13 +150,11 @@ class BeneficiaryResource extends Resource
                         'Rural Damascus' => 'Rural Damascus',
                         'Der-ezzor' => 'Der-ezzor',
                         'Alhasaka' => 'Alhasaka',
-
                     ]),
                 SelectFilter::make('modality')->options([
                     'cash' => 'cash',
                     'voucher' => 'voucher',
                 ]),
-
             ])
             ->actions([
                 Tables\Actions\EditAction::make()->modal(),
@@ -175,31 +172,6 @@ class BeneficiaryResource extends Resource
         return [
             //
         ];
-    }
-
-    protected static function beforeCreate($record)
-    {
-        $uploadedData = request()->file('upload')->get(); // Adjust based on your file input handling
-        $uploadedIds = collect($uploadedData)->pluck('national_id');
-
-        // Perform duplicate check
-        $duplicates = DB::table('beneficiaries')
-            ->whereIn('national_id', $uploadedIds)
-          //  ->where('governate', '!=', auth()->user()->governate)
-            ->get();
-
-        if ($duplicates->isNotEmpty()) {
-            throw ValidationException::withMessages([
-                'upload' => 'The following IDs already exist in other cities: '
-                            .$duplicates->pluck('national_id')->implode(', '),
-            ]);
-        }
-        dump($duplicates);
-        Notification::make()
-            ->warning()
-            ->title('Duplicate Found')
-            ->body('Some beneficiaries are already listed in other cities.')
-            ->send();
     }
 
     public static function getPages(): array
