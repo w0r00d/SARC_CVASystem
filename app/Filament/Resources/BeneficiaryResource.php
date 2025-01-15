@@ -19,8 +19,8 @@ use Illuminate\Database\Eloquent\Builder;
 class BeneficiaryResource extends Resource
 {
     protected static ?string $model = Beneficiary::class;
-
-    protected static ?string $navigationIcon = 'heroicon-o-user-circle';
+    protected static ?string $navigationGroup = 'Projects';
+    protected static ?string $navigationIcon = 'heroicon-o-user-group';
 
     public static function form(Form $form): Form
     {
@@ -104,11 +104,11 @@ class BeneficiaryResource extends Resource
 
             ->columns([
                 //
-                Tables\Columns\TextColumn::make('fullname'),
-                Tables\Columns\TextColumn::make('national_id'),
-                Tables\Columns\TextColumn::make('governate'),
-                Tables\Columns\TextColumn::make('sector'),
-                Tables\Columns\TextColumn::make('modality'),
+                Tables\Columns\TextColumn::make('fullname')->searchable()->sortable(),
+                Tables\Columns\TextColumn::make('national_id')->searchable()->sortable(),
+                Tables\Columns\TextColumn::make('governate')->searchable()->sortable(),
+                Tables\Columns\TextColumn::make('sector')->searchable()->sortable(),
+                Tables\Columns\TextColumn::make('modality')->searchable()->sortable(),
             ])
            // ->query(Beneficiary::query())
             ->modifyQueryUsing(function (Builder $query) {

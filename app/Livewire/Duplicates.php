@@ -6,6 +6,7 @@ use App\Filament\Exports\PendingBeneficiaryExporter;
 use App\Filament\Imports\PendingBeneficiaryImporter;
 use App\Models\BeneficiaryView;
 use App\Models\PendingBeneficiary;
+use App\Models\Beneficiary;
 use Filament\Forms\Concerns\InteractsWithForms;
 use Filament\Forms\Contracts\HasForms;
 use Filament\Tables;
@@ -17,11 +18,20 @@ use Filament\Tables\Filters\SelectFilter;
 use Filament\Tables\Table;
 use Illuminate\Database\Eloquent\Builder;
 use Livewire\Component;
+use Filament\Forms\Components\TextInput;
+use Filament\Infolists\Components\TextEntry;
+use Filament\Infolists;
+use Filament\Infolists\Infolist;
+use Filament\Tables\Enums\ActionsPosition;
+use Filament\Infolists\Components\Section;
 
 class Duplicates extends Component implements HasForms, HasTable
 {
     use InteractsWithForms;
     use InteractsWithTable;
+    protected static ?string $model = Beneficiary::class;
+
+    protected static ?string $navigationIcon = 'heroicon-o-user-circle';
 
     public $changeQ = false;
 
@@ -58,7 +68,7 @@ class Duplicates extends Component implements HasForms, HasTable
 
                     ->importer(PendingBeneficiaryImporter::class)
                     ->label('Upload Pending Beneficiaries'),
-                Tables\Actions\Action::make('Check Duplicates')
+                Tables\Actions\Action::make('Show Duplicates')
                     ->extraAttributes([
                         'wire:click' => 'changeV',
 
@@ -67,12 +77,12 @@ class Duplicates extends Component implements HasForms, HasTable
                 Tables\Actions\Action::make('Clear Pending Data')
                     ->extraAttributes([
                         'wire:click' => 'clearing',
-                        'wire:confirm' => 'Are you sure you want to delete pending? This cannot be undone.',
-                    ])->requiresConfirmation()
+                        'wire:confirm' => 'Are you sure you want to clear pending data? This cannot be undone.'
+                    ])
                     ->color('primary'),
 
             ])->striped()
-            ->heading('Beneficiaries')
+            ->heading('Beneficiaries Data')
 
             ->columns([
                 Tables\Columns\TextColumn::make('fullname')
@@ -82,7 +92,7 @@ class Duplicates extends Component implements HasForms, HasTable
                 Tables\Columns\TextColumn::make('national_id')
                     ->extraAttributes(function (BeneficiaryView $beneficiaryView) {
                         // dump($beneficiaryView->ben);
-                        if ($beneficiaryView->ben == 'pending') {
+                        if ($beneficiaryView->checkRecord() && $beneficiaryView->ben =='pending') {
                             return ['style' => ' background-color: #c93232;'];
                         }
 
@@ -95,73 +105,88 @@ class Duplicates extends Component implements HasForms, HasTable
                 Tables\Columns\TextColumn::make('ben')
                     ->label('Beneficiary Type'),
                 Tables\Columns\IconColumn::make('ben')
+                ->label('Pending/Old')
                     ->options([
                         'heroicon-o-x-circle',
                         'heroicon-o-no-symbol' => 'ben',
                         'heroicon-o-exclamation-circle' => 'pending',
                     ]),
-                Tables\Columns\TextColumn::make('ben'),
-            ])
-            ->emptyStateHeading('No pending Beneficiaries to be checked.
-             ')
-             ->emptyStateDescription('Use the upload button to upload CSV file.')
-            ->actions([
-                Tables\Actions\ViewAction::make()->modal(),
+                    Tables\Columns\IconColumn::make('Is Duplicate')
+                ->getStateUsing(function(BeneficiaryView $record) {
+                    // return whatever you need to show
+                    return $record->checkRecord();
+                })
+                ->options([
+                    'heroicon-o-x-circle',
+                    'heroicon-o-check' => true,
+                    'heroicon-o-x-mark' =>false,
+
+                ]),
+               
+
             ])
 
             ->modifyQueryUsing(function (Builder $query) {
                 if ($this->changeQ) {
-                    return BeneficiaryView::getDups();
+                    //return Beneficiary::query();
+                   return BeneficiaryView::getDups();
                 } else {
-                    return BeneficiaryView::where('ben', 'pending');
+                    return BeneficiaryView::where('ben','pending');
+                  //return Beneficiary::query();
                 }
             })
-            ->query(BeneficiaryView::where('ben', 'pending'))
+            ->query(BeneficiaryView::where('ben','pending'))
+
             ->bulkActions([
                 ExportBulkAction::make()
                     ->exporter(PendingBeneficiaryExporter::class),
             ])
-            ->filters([
-                //
-                SelectFilter::make('sector')->options([
-                    'Health' => 'Health',
-                    'Livelihood' => 'Livelihood',
-                    'Protection' => 'Protection',
-                    'Disaster Management' => 'Disaster Management',
-                    'Wash' => 'Wash',
-                    'Risk Education' => 'Risk Education',
-                ]),
-                SelectFilter::make('governate')
-                    ->options([
-                        'Damascus' => 'Damascus',
-                        'Aleppo' => 'Aleppo',
-                        'Homs' => 'Homs',
-                        'Hama' => 'Hama',
-                        'Latakia' => 'Latakia',
-                        'Tartous' => 'Tartous',
-                        'As-Sweida' => 'As-Sweida',
-                        'Ar-Raqqa' => 'Ar-Raqqa',
-                        'Daraa' => 'Daraa',
-                        'Idleb' => 'Idleb',
-                        'Quneitra' => 'Quneitra',
-                        'Rural Damascus' => 'Rural Damascus',
-                        'Der-ezzor' => 'Der-ezzor',
-                        'Alhasaka' => 'Alhasaka',
-                    ]),
-                SelectFilter::make('modality')->options([
-                    'cash' => 'cash',
-                    'voucher' => 'voucher',
-                ]),
+            ->emptyStateHeading('No pending Beneficiaries to check.')
+            ->actions([
+               
+                Tables\Actions\ViewAction::make()->infolist([
+                    Section::make('Beneficiary Personal Data')
+                    ->columns(3)
+                    ->schema([
+                    TextEntry::make('fullname'),
+                    Infolists\Components\TextEntry::make('national_id'),
+                    Infolists\Components\TextEntry::make('phonenumber')
+                        ->label('Phone number')
+                        ->icon('heroicon-s-phone'),
+                        Infolists\Components\TextEntry::make('recipient_name'),
+                        Infolists\Components\TextEntry::make('recipient_nid'),
+                        Infolists\Components\TextEntry::make('recipient_phone')
+                            ->icon('heroicon-s-phone'),
+                            Infolists\Components\TextEntry::make('project_name'),
+                    Infolists\Components\TextEntry::make('partner'),
+                    Infolists\Components\TextEntry::make('sector'),
+                    Infolists\Components\TextEntry::make('modality'),
+                    Infolists\Components\TextEntry::make('project_start_date')
+                        ->icon('heroicon-s-calendar-days'),
+                    Infolists\Components\TextEntry::make('project_end_date')
+                        ->icon('heroicon-s-calendar-days'),
+                        Infolists\Components\TextEntry::make('transfer_value')
+                        ->icon('heroicon-s-banknotes'),
+                    Infolists\Components\TextEntry::make('transfer_count'),
+                    Infolists\Components\TextEntry::make('recieve_date')
+                        ->icon('heroicon-s-calendar-days'),
+                 
+           
+                    Infolists\Components\TextEntry::make('updated_at')->icon('heroicon-s-calendar-days'),
+                    Infolists\Components\TextEntry::make('created_at')->icon('heroicon-s-calendar-days'),
+               
+                ]),]),
             ]);
-    }
+          
+         
 
+    }
     public static function getPages(): array
     {
         return [
             'view' => Pages\ViewBeneficiary::route('/{record}'),
         ];
     }
-
     public function render()
     {
         return view('livewire.duplicates');
