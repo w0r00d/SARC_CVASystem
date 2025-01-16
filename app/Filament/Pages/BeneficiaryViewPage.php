@@ -78,4 +78,8 @@ class BeneficiaryViewPage extends Page
                     ->columns(2),
             ]);
     }
+    public static function shouldRegisterNavigation(): bool
+{
+    return false;
+}
 }
