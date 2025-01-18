@@ -10,4 +10,5 @@ class Statistics extends Page
     protected static ?int $navigationSort = 3;
     protected static string $view = 'filament.pages.statistics';
     protected static ?string $navigationGroup = 'Projects';
+    protected static bool $shouldRegisterNavigation = false;
 }

@@ -110,6 +110,7 @@ class BeneficiaryResource extends Resource
                 Tables\Columns\TextColumn::make('governate')->searchable()->sortable(),
                 Tables\Columns\TextColumn::make('sector')->searchable()->sortable(),
                 Tables\Columns\TextColumn::make('modality')->searchable()->sortable(),
+                Tables\Columns\TextColumn::make('project_name')->searchable()->sortable(),
             ])
            // ->query(Beneficiary::query())
             ->modifyQueryUsing(function (Builder $query) {
@@ -157,7 +158,7 @@ class BeneficiaryResource extends Resource
                     'cash' => 'cash',
                     'voucher' => 'voucher',
                 ]),
-
+                
             ])
             ->actions([
                 Tables\Actions\EditAction::make()->modal(),
