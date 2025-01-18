@@ -14,6 +14,7 @@ use Filament\Tables\Actions\ExportBulkAction;
 use Filament\Tables\Actions\ImportAction;
 use Filament\Tables\Concerns\InteractsWithTable;
 use Filament\Tables\Contracts\HasTable;
+use Filament\Tables\Filters\SelectFilter;
 use Filament\Tables\Table;
 use Illuminate\Database\Eloquent\Builder;
 use Livewire\Component;
@@ -51,12 +52,10 @@ class Duplicates extends Component implements HasForms, HasTable
             $this->changeQ = true;
         }
         $this->dispatch('refreshComponent');
-
     }
 
     public function clearing()
     {
-
         PendingBeneficiary::destroy(PendingBeneficiary::all());
     }
 
@@ -66,11 +65,13 @@ class Duplicates extends Component implements HasForms, HasTable
 
             ->headerActions([
                 ImportAction::make('import')
+
                     ->importer(PendingBeneficiaryImporter::class)
                     ->label('Upload Pending Beneficiaries'),
                 Tables\Actions\Action::make('Show Duplicates')
                     ->extraAttributes([
                         'wire:click' => 'changeV',
+
                     ])
                     ->color('blue'),
                 Tables\Actions\Action::make('Clear Pending Data')
@@ -101,14 +102,14 @@ class Duplicates extends Component implements HasForms, HasTable
                 Tables\Columns\TextColumn::make('governate'),
                 Tables\Columns\TextColumn::make('sector'),
                 Tables\Columns\TextColumn::make('modality'),
-                //  Tables\Columns\TextColumn::make('ben'),
+                Tables\Columns\TextColumn::make('ben')
+                    ->label('Beneficiary Type'),
                 Tables\Columns\IconColumn::make('ben')
                 ->label('Pending/Old')
                     ->options([
                         'heroicon-o-x-circle',
                         'heroicon-o-no-symbol' => 'ben',
                         'heroicon-o-exclamation-circle' => 'pending',
-
                     ]),
                     Tables\Columns\IconColumn::make('Is Duplicate')
                 ->getStateUsing(function(BeneficiaryView $record) {
@@ -133,7 +134,6 @@ class Duplicates extends Component implements HasForms, HasTable
                     return BeneficiaryView::where('ben','pending');
                   //return Beneficiary::query();
                 }
-
             })
             ->query(BeneficiaryView::where('ben','pending'))
 
