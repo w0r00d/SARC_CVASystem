@@ -15,7 +15,7 @@ use Filament\Tables\Actions\ImportAction;
 use Filament\Tables\Filters\SelectFilter;
 use Filament\Tables\Table;
 use Illuminate\Database\Eloquent\Builder;
-
+use Filament\Tables\Actions\Action;
 class BeneficiaryResource extends Resource
 {
     protected static ?string $model = Beneficiary::class;
@@ -156,14 +156,16 @@ class BeneficiaryResource extends Resource
                     'cash' => 'cash',
                     'voucher' => 'voucher',
                 ]),
-<<<<<<< HEAD
+
                 
-=======
->>>>>>> 4b96d4accc430b5a806bd7f0c6827fae58cc669d
+
             ])
             ->actions([
                 Tables\Actions\EditAction::make()->modal(),
                 Tables\Actions\ViewAction::make()->modal(),
+                Action::make('Test')->icon('heroicon-o-document-duplicate')->form([
+                    TextInput::make('modality')
+                ]),
             ])
             ->bulkActions([
                 Tables\Actions\BulkActionGroup::make([
