@@ -16,6 +16,9 @@ use Filament\Tables\Filters\SelectFilter;
 use Filament\Tables\Table;
 use Illuminate\Database\Eloquent\Builder;
 use Filament\Tables\Actions\Action;
+use Filament\Infolists\Components\Section;
+use Filament\Infolists\Components\TextEntry;
+use Filament\Infolists\Infolist;
 class BeneficiaryResource extends Resource
 {
     protected static ?string $model = Beneficiary::class;
@@ -156,16 +159,14 @@ class BeneficiaryResource extends Resource
                     'cash' => 'cash',
                     'voucher' => 'voucher',
                 ]),
-
-                
-
             ])
             ->actions([
                 Tables\Actions\EditAction::make()->modal(),
                 Tables\Actions\ViewAction::make()->modal(),
-                Action::make('Test')->icon('heroicon-o-document-duplicate')->form([
-                    TextInput::make('modality')
+                Action::make('Test')->icon('heroicon-o-document-duplicate')->infolist([
+                   Section::make()->schema([  TextEntry::make('fullname'),])
                 ]),
+                Action::make('findDuplicates')
             ])
             ->bulkActions([
                 Tables\Actions\BulkActionGroup::make([
@@ -180,7 +181,19 @@ class BeneficiaryResource extends Resource
             //
         ];
     }
+    public function findDuplicatesAction(): Action
+    {
+        return Action::make('findDuplicates')
+        ->action(function(){
+            Notification::make()
+                ->title('Test')
+                ->body('The testing..')
+                ->success()
+                ->send();
 
+
+        });
+    }
     public static function getPages(): array
     {
         return [

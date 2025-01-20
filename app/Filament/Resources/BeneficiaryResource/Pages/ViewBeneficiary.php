@@ -110,7 +110,6 @@ class ViewBeneficiary extends ViewRecord
                             ->state(function (Beneficiary $record): int {
                                 return $record->getCount();
                             }
-
                             ),
 
                     ]),
