@@ -18,7 +18,11 @@ use Illuminate\Database\Eloquent\Builder;
 use Filament\Tables\Actions\Action;
 use Filament\Infolists\Components\Section;
 use Filament\Infolists\Components\TextEntry;
+use Filament\Infolists\Components\Livewire;
 use Filament\Infolists\Infolist;
+use App\Livewire\ShowDuplicates;
+use Filament\Tables\Actions\ExportBulkAction;
+use App\Filament\Exports\PendingBeneficiaryExporter;
 class BeneficiaryResource extends Resource
 {
     protected static ?string $model = Beneficiary::class;
@@ -104,7 +108,6 @@ class BeneficiaryResource extends Resource
 
             ])->striped()
             ->heading('Beneficiaries')
-
             ->columns([
                 //
                 Tables\Columns\TextColumn::make('fullname')->searchable()->sortable(),
@@ -163,15 +166,15 @@ class BeneficiaryResource extends Resource
             ->actions([
                 Tables\Actions\EditAction::make()->modal(),
                 Tables\Actions\ViewAction::make()->modal(),
-                Action::make('Test')->icon('heroicon-o-document-duplicate')->infolist([
-                   Section::make()->schema([  TextEntry::make('fullname'),])
-                ]),
-                Action::make('findDuplicates')
+                Action::make('Show Duplicates')->modal()->infolist([
+              Livewire::make(ShowDuplicates::class),
+                ])
+                ->icon('heroicon-o-magnifying-glass-circle')
+                ->color('#f0f'),               
             ])
             ->bulkActions([
-                Tables\Actions\BulkActionGroup::make([
-                    Tables\Actions\DeleteBulkAction::make(),
-                ]),
+                ExportBulkAction::make()
+                    ->exporter(PendingBeneficiaryExporter::class),
             ]);
     }
 
@@ -184,7 +187,11 @@ class BeneficiaryResource extends Resource
     public function findDuplicatesAction(): Action
     {
         return Action::make('findDuplicates')
+        ->infolist([
+            Section::make()->schema([  TextEntry::make('fullname'),])
+         ])
         ->action(function(){
+            
             Notification::make()
                 ->title('Test')
                 ->body('The testing..')

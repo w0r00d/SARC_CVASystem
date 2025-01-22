@@ -19,7 +19,6 @@ class ViewBeneficiary extends ViewRecord
     {
         return $infolist
             ->schema([
-
                 Section::make('Beneficiary Personal Data')
                     ->icon('heroicon-s-user')
                     ->columns(3)
@@ -43,7 +42,6 @@ class ViewBeneficiary extends ViewRecord
 
                 Section::make('Recipient Personal Data')
                     ->icon('heroicon-s-user')
-
                     ->columns(3)
                     ->schema([
                         Infolists\Components\TextEntry::make('recipient_name'),
@@ -60,8 +58,8 @@ class ViewBeneficiary extends ViewRecord
                             ->label('Phone Number Before update')
                             ->placeholder('not updated')
                             ->icon('heroicon-s-phone'),
-
                     ]),
+
                 Section::make('Project Detail')
                     ->icon('heroicon-s-information-circle')
                     ->columns(3)
@@ -74,8 +72,8 @@ class ViewBeneficiary extends ViewRecord
                             ->icon('heroicon-s-calendar-days'),
                         Infolists\Components\TextEntry::make('project_end_date')
                             ->icon('heroicon-s-calendar-days'),
-
                     ]),
+
                 Section::make('Transfer Details')
                     ->icon('heroicon-s-banknotes')
                     ->columns(3)
@@ -89,19 +87,18 @@ class ViewBeneficiary extends ViewRecord
                             ->placeholder('not updated')
                             ->label('Transfer Value Before update')
                             ->icon('heroicon-s-banknotes'),
-
                         Infolists\Components\TextEntry::make('h_transfer_count')
                             ->placeholder('not updated')
                             ->label('Transfer Count Before update'),
-                    ]),
+                    ]),                              
                 Section::make('Update Details')
                     ->icon('heroicon-s-pencil-square')
                     ->columns(3)
                     ->schema([
                         Infolists\Components\TextEntry::make('updated_at')->icon('heroicon-s-calendar-days'),
                         Infolists\Components\TextEntry::make('created_at')->icon('heroicon-s-calendar-days'),
-
                     ]),
+
                 Section::make('Duplicates')
                     ->icon('heroicon-s-square-3-stack-3d')
                     ->columns(3)
