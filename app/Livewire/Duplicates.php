@@ -96,7 +96,6 @@ class Duplicates extends Component implements HasForms, HasTable
                         if ($beneficiaryView->checkRecord() && $beneficiaryView->ben =='pending') {
                             return ['style' => ' background-color: #c93232;'];
                         }
-
                         return [];
                     }),
 

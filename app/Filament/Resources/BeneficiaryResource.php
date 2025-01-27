@@ -98,6 +98,7 @@ class BeneficiaryResource extends Resource
                 Tables\Columns\TextColumn::make('sector')->searchable()->sortable(),
                 Tables\Columns\TextColumn::make('modality')->searchable()->sortable(),
                 Tables\Columns\TextColumn::make('project_name')->searchable()->sortable(),
+                Tables\Columns\TextColumn::make('created_at')->date()->searchable()->sortable(),
             ])
            // ->query(Beneficiary::query())
             ->modifyQueryUsing(function (Builder $query) {
@@ -126,7 +127,7 @@ class BeneficiaryResource extends Resource
             ->actions([
                 Tables\Actions\EditAction::make()->modal(),
                 Tables\Actions\ViewAction::make()->modal(),
-                Action::make('Show Duplicates')->modal()->infolist([
+                Action::make('Show Duplicates')->infolist([
               Livewire::make(ShowDuplicates::class),
                 ])
                 ->icon('heroicon-o-magnifying-glass-circle')

@@ -25,5 +25,9 @@ class Beneficiary extends Model
 
         return Beneficiary::where('national_id', $this->national_id)->count();
     }
+    public function getCreatedAtDate(){
+
+        return Date($this->created_at);
+    }
 
 }

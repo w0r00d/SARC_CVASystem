@@ -23,18 +23,31 @@ class ShowDuplicates extends Component  implements HasForms, HasTable
     use InteractsWithTable;
 
     public  $cnt;
+    public $test;
 
+    public function test(){
+        $this->test =  Beneficiary::where('national_id',$this->record->national_id);
+
+    }
     public function table(Table $table): Table
     {
         return $table
-        ->modifyQueryUsing(function (Builder $query) {
+      ->modifyQueryUsing(function (Builder $query) {
             $this->cnt = $this->record->getCount();
-            if ($this->record->getCount()>1) 
-                //return Beneficiary::query();
-               return $this->record->get_dups();
-            else $this->record;
+            if ( $this->cnt>1) 
+            {    //return Beneficiary::query();
+                $data =$this->record->get_dups() ;
+               dump( $data);
+               return  $data;
+            }
+            else {
+               dump('no data');
+                return Beneficiary::where('national_id',$this->record->national_id);
+            }
         })
+      
         ->query(Beneficiary::where('national_id',$this->record->national_id))
+        //Beneficiary::where('national_id',$this->record->national_id)
         ->columns([
             Tables\Columns\TextColumn::make('national_id'),
             Tables\Columns\TextColumn::make('fullname'),
