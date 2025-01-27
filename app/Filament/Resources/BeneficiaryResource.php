@@ -1,7 +1,8 @@
 <?php
 
 namespace App\Filament\Resources;
-
+use App\Enums\Governates;
+use App\Enums\Sectors;
 use App\Filament\Imports\BeneficiaryImporter;
 use App\Filament\Resources\BeneficiaryResource\Pages;
 use App\Models\Beneficiary;
@@ -47,22 +48,10 @@ class BeneficiaryResource extends Resource
                 TextInput::make('recipient_nid')->required()
                     ->numeric(),
                 Select::make('governate')
-                    ->options([
-                        'Damascus' => 'Damascus',
-                        'Aleppo' => 'Aleppo',
-                        'Homs' => 'Homs',
-                        'Hama' => 'Hama',
-                        'Latakia' => 'Latakia',
-                        'Tartous' => 'Tartous',
-                        'As-Sweida' => 'As-Sweida',
-                        'Ar-Raqqa' => 'Ar-Raqqa',
-                        'Daraa' => 'Daraa',
-                        'Idleb' => 'Idleb',
-                        'Quneitra' => 'Quneitra',
-                        'Rural Damascus' => 'Rural Damascus',
-                        'Der-ezzor' => 'Der-ezzor',
-                        'Alhasaka' => 'Alhasaka',
-                    ])->required()
+                    ->options(
+                         Governates::all()
+                 
+                    )->required()
                     ->disabledOn('edit'),
                 TextInput::make('project_name')->required()
                     ->disabledOn('edit'),
@@ -78,14 +67,7 @@ class BeneficiaryResource extends Resource
                     ->disabledOn('edit'),
                 DatePicker::make('recieve_date')->required()
                     ->disabledOn('edit'),
-                Select::make('sector')->options([
-                    'Health' => 'Health',
-                    'Livelihood' => 'Livelihood',
-                    'Protection' => 'Protection',
-                    'Disaster Management' => 'Disaster Management',
-                    'Wash' => 'Wash',
-                    'Risk Education' => 'Risk Education',
-                ])->required()
+                Select::make('sector')->options(Sectors::all())->required()
                     ->disabledOn('edit'),
                 Select::make('modality')->options([
                     'cash' => 'cash',
@@ -133,31 +115,9 @@ class BeneficiaryResource extends Resource
             })
             ->filters([
                 //
-                SelectFilter::make('sector')->options([
-                    'Health' => 'Health',
-                    'Livelihood' => 'Livelihood',
-                    'Protection' => 'Protection',
-                    'Disaster Management' => 'Disaster Management',
-                    'Wash' => 'Wash',
-                    'Risk Education' => 'Risk Education',
-                ]),
+                SelectFilter::make('sector')->options(Sectors::all()),
                 SelectFilter::make('governate')
-                    ->options([
-                        'Damascus' => 'Damascus',
-                        'Aleppo' => 'Aleppo',
-                        'Homs' => 'Homs',
-                        'Hama' => 'Hama',
-                        'Latakia' => 'Latakia',
-                        'Tartous' => 'Tartous',
-                        'As-Sweida' => 'As-Sweida',
-                        'Ar-Raqqa' => 'Ar-Raqqa',
-                        'Daraa' => 'Daraa',
-                        'Idleb' => 'Idleb',
-                        'Quneitra' => 'Quneitra',
-                        'Rural Damascus' => 'Rural Damascus',
-                        'Der-ezzor' => 'Der-ezzor',
-                        'Alhasaka' => 'Alhasaka',
-                    ]),
+                    ->options( fn () =>  Governates::all()),
                 SelectFilter::make('modality')->options([
                     'cash' => 'cash',
                     'voucher' => 'voucher',

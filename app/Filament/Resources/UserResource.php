@@ -12,6 +12,8 @@ use Filament\Tables;
 use Filament\Tables\Filters\SelectFilter;
 use Filament\Tables\Table;
 use Illuminate\Database\Eloquent\Builder;
+use App\Enums\Governates;
+use App\Enums\Sectors;
 
 class UserResource extends Resource
 {
@@ -29,31 +31,13 @@ class UserResource extends Resource
                     ->password(),
                 Select::make('governate')
                     ->options([
-                        'All' => 'All',
-                        'Damascus' => 'Damascus',
-                        'Aleppo' => 'Aleppo',
-                        'Homs' => 'Homs',
-                        'Hama' => 'Hama',
-                        'Latakia' => 'Latakia',
-                        'Tartous' => 'Tartous',
-                        'As-Sweida' => 'As-Sweida',
-                        'Ar-Raqqa' => 'Ar-Raqqa',
-                        'Daraa' => 'Daraa',
-                        'Idleb' => 'Idleb',
-                        'Quneitra' => 'Quneitra',
-                        'Rural Damascus' => 'Rural Damascus',
-                        'Der-ezzor' => 'Der-ezzor',
-                        'Alhasaka' => 'Alhasaka',
+                      "Access to All Data" => [  'All' => 'All',],
+                      "or choose one Governate"=>   Governates::all()
 
                     ])->required(),
                 Select::make('sector')->options([
-                    'All' => 'All',
-                    'Health' => 'Health',
-                    'Livelihood' => 'Livelihood',
-                    'Protection' => 'Protection',
-                    'Disaster Management' => 'Disaster Management',
-                    'Wash' => 'Wash',
-                    'Risk Education' => 'Risk Education',
+                  "Full Access"=>   [   'All' => 'All',],
+                  "Or choose one Sector "=>  Sectors::all()
                 ])->required(),
                 Select::make('role')->options([
                     'Super Admin' => 'Super Admin',

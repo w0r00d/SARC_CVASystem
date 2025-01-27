@@ -10,6 +10,8 @@ use Filament\Forms\Components\DatePicker;
 use Filament\Forms\Components\Select;
 use Filament\Forms\Components\TextInput;
 use Illuminate\Support\Facades\DB;
+use App\Enums\Governates;
+use App\Enums\Sectors;
 class PendingBeneficiaryImporter extends Importer
 {
     protected static ?string $model = PendingBeneficiary::class;
@@ -50,34 +52,20 @@ class PendingBeneficiaryImporter extends Importer
         return [
             Select::make('sector2')
                 ->label('Sector')
-                ->options([
-                    'Health' => 'Health',
-                    'Livelihood' => 'Livelihood',
-                    'Protection' => 'Protection',
-                    'Disaster Management' => 'Disaster Management',
-                    'Wash' => 'Wash',
-                    'Risk Education' => 'Risk Education',
-                ])
+                ->options(Sectors::all())
                 ->when(auth()->user()->isAdmin(), function (Select $select) {
                     return
                         Select::make('sector2')
                             ->label('Sector')
-                            ->options([
-                                'Health' => 'Health',
-                                'Livelihood' => 'Livelihood',
-                                'Protection' => 'Protection',
-                                'Disaster Management' => 'Disaster Management',
-                                'Wash' => 'Wash',
-                                'Risk Education' => 'Risk Education',
-
-                            ]);
-                })->when(! auth()->user()->isAdmin(), function (Select $select) {
+                            ->options(Sectors::all());
+                })
+                ->when(! auth()->user()->isAdmin(), function (Select $select) {
                     return
                         Select::make('sector2')
                             ->label('Sector')
                             ->options([
                                 auth()->user()->sector => auth()->user()->sector,
-                                0,
+                              
                             ]);
                 }),
             Select::make('modality2')
@@ -96,23 +84,7 @@ class PendingBeneficiaryImporter extends Importer
                     return
                         Select::make('governate2')
                             ->label('Governate')
-                            ->options([
-                                'Damascus' => 'Damascus',
-                                'Aleppo' => 'Aleppo',
-                                'Homs' => 'Homs',
-                                'Hama' => 'Hama',
-                                'Latakia' => 'Latakia',
-                                'Tartous' => 'Tartous',
-                                'As-Sweida' => 'As-Sweida',
-                                'Ar-Raqqa' => 'Ar-Raqqa',
-                                'Daraa' => 'Daraa',
-                                'Idleb' => 'Idleb',
-                                'Quneitra' => 'Quneitra',
-                                'Rural Damascus' => 'Rural Damascus',
-                                'Der-ezzor' => 'Der-ezzor',
-                                'Alhasaka' => 'Alhasaka',
-
-                            ]);
+                            ->options(  Governates::all());
                 })->when(! auth()->user()->isAdmin(), function (Select $select) {
                     return
                         Select::make('governate2')

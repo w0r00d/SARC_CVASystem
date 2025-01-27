@@ -36,7 +36,7 @@ class Duplicates extends Component implements HasForms, HasTable
     public $changeQ = false;
 
     public $t = 'worood';
-
+    public $cnt = 0; 
     protected $listeners = ['refreshComponent' => '$refresh'];
 
     public function test()
@@ -52,6 +52,7 @@ class Duplicates extends Component implements HasForms, HasTable
             $this->changeQ = true;
         }
         $this->dispatch('refreshComponent');
+        
     }
 
     public function clearing()
@@ -121,14 +122,13 @@ class Duplicates extends Component implements HasForms, HasTable
                     'heroicon-o-check' => true,
                     'heroicon-o-x-mark' =>false,
 
-                ]),
-               
-
+                ]),              
             ])
 
             ->modifyQueryUsing(function (Builder $query) {
                 if ($this->changeQ) {
                     //return Beneficiary::query();
+                    $this->cnt = BeneficiaryView::getDups()->count();
                    return BeneficiaryView::getDups();
                 } else {
                     return BeneficiaryView::where('ben','pending');
@@ -142,13 +142,13 @@ class Duplicates extends Component implements HasForms, HasTable
                     ->exporter(PendingBeneficiaryExporter::class),
             ])
             ->emptyStateHeading('No pending Beneficiaries to check.')
-            ->actions([
-               
+            ->actions([               
                 Tables\Actions\ViewAction::make()->infolist([
-                    Section::make('Beneficiary Personal Data')
+                    Section::make('Beneficiary Data')
                     ->columns(3)
                     ->schema([
-                    TextEntry::make('fullname'),
+                    TextEntry::make('fullname')
+                  ,
                     Infolists\Components\TextEntry::make('national_id'),
                     Infolists\Components\TextEntry::make('phonenumber')
                         ->label('Phone number')
@@ -169,17 +169,11 @@ class Duplicates extends Component implements HasForms, HasTable
                         ->icon('heroicon-s-banknotes'),
                     Infolists\Components\TextEntry::make('transfer_count'),
                     Infolists\Components\TextEntry::make('recieve_date')
-                        ->icon('heroicon-s-calendar-days'),
-                 
-           
+                        ->icon('heroicon-s-calendar-days'),     
                     Infolists\Components\TextEntry::make('updated_at')->icon('heroicon-s-calendar-days'),
-                    Infolists\Components\TextEntry::make('created_at')->icon('heroicon-s-calendar-days'),
-               
+                    Infolists\Components\TextEntry::make('created_at')->icon('heroicon-s-calendar-days'),        
                 ]),]),
-            ]);
-          
-         
-
+            ]);     
     }
     public static function getPages(): array
     {

@@ -17,7 +17,7 @@ return new class extends Migration
             $table->string('email')->unique();
             $table->timestamp('email_verified_at')->nullable();
             $table->enum('governate', ['all', 'Damascus', 'Aleppo', 'Homs', 'Hama', 'Latakia', 'Tartous', 'As-Sweida', 'Ar-Raqqa', 'Daraa', 'Idleb', 'Quneitra', 'Rural Damascus', 'Der-ezzor', 'Alhasaka'])->nullable();
-            $table->enum('sector', ['all', 'Health', 'Livelihood', 'Protection', 'Disaster Management', 'Wash', 'Risk Education'])->nullable();
+            $table->string('sector')->nullable();
             $table->string('role')->nullable();
             $table->string('password');
             $table->rememberToken();

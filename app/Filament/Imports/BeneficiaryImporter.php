@@ -10,7 +10,8 @@ use Filament\Forms\Components\DatePicker;
 use Filament\Forms\Components\Select;
 use Filament\Forms\Components\TextInput;
 use Illuminate\Support\Facades\DB;
-
+use App\Enums\Governates;
+use App\Enums\Sectors;
 class BeneficiaryImporter extends Importer
 {
     protected static ?string $model = Beneficiary::class;
@@ -36,33 +37,18 @@ class BeneficiaryImporter extends Importer
             ImportColumn::make('recipient_nid')
                 ->requiredMapping()
                 ->rules(['required', 'max:11']),
-            //  ImportColumn::make('governate')
-            //     ->requiredMapping()
-            //     ->rules(['required', 'max:255']),
-            //      ImportColumn::make('project_name')
-            //          ->requiredMapping()
-            //          ->rules(['required', 'max:255']),
-            //      ImportColumn::make('partner')
-            //          ->requiredMapping()
-            //          ->rules(['required', 'max:255']),
+         
             ImportColumn::make('transfer_value')
                 ->requiredMapping()
                 ->rules(['required', 'max:255']),
             ImportColumn::make('transfer_count')
                 ->requiredMapping()
                 ->rules(['required']),
-            //          ImportColumn::make('project_date')
-            //            ->requiredMapping()
-            //            ->rules(['required']),
+      
             ImportColumn::make('recieve_date')
                 ->requiredMapping()
                 ->rules(['required']),
-            // ImportColumn::make('sector')
-            //     ->requiredMapping()
-            //    ->rules(['required', 'max:255']),
-            //         ImportColumn::make('modality')
-            //          ->requiredMapping()
-            //          ->rules(['required', 'max:255']),
+          
         ];
     }
 
@@ -71,34 +57,19 @@ class BeneficiaryImporter extends Importer
         return [
             Select::make('sector2')
                 ->label('Sector')
-                ->options([
-                    'Health' => 'Health',
-                    'Livelihood' => 'Livelihood',
-                    'Protection' => 'Protection',
-                    'Disaster Management' => 'Disaster Management',
-                    'Wash' => 'Wash',
-                    'Risk Education' => 'Risk Education',
-                ])
+                ->options( Sectors::all())
                 ->when(auth()->user()->isAdmin(), function (Select $select) {
                     return
                         Select::make('sector2')
                             ->label('Sector')
-                            ->options([
-                                'Health' => 'Health',
-                                'Livelihood' => 'Livelihood',
-                                'Protection' => 'Protection',
-                                'Disaster Management' => 'Disaster Management',
-                                'Wash' => 'Wash',
-                                'Risk Education' => 'Risk Education',
-
-                            ]);
+                            ->options(Sectors::all());
                 })->when(! auth()->user()->isAdmin(), function (Select $select) {
                     return
                         Select::make('sector2')
                             ->label('Sector')
                             ->options([
                                 auth()->user()->sector => auth()->user()->sector,
-                                0,
+                                
                             ]);
                 }),
             Select::make('modality2')
@@ -117,23 +88,9 @@ class BeneficiaryImporter extends Importer
                     return
                         Select::make('governate2')
                             ->label('Governate')
-                            ->options([
-                                'Damascus' => 'Damascus',
-                                'Aleppo' => 'Aleppo',
-                                'Homs' => 'Homs',
-                                'Hama' => 'Hama',
-                                'Latakia' => 'Latakia',
-                                'Tartous' => 'Tartous',
-                                'As-Sweida' => 'As-Sweida',
-                                'Ar-Raqqa' => 'Ar-Raqqa',
-                                'Daraa' => 'Daraa',
-                                'Idleb' => 'Idleb',
-                                'Quneitra' => 'Quneitra',
-                                'Rural Damascus' => 'Rural Damascus',
-                                'Der-ezzor' => 'Der-ezzor',
-                                'Alhasaka' => 'Alhasaka',
-
-                            ]);
+                            ->options(
+                                fn () =>  Governates::all() 
+                            );
                 })->when(! auth()->user()->isAdmin(), function (Select $select) {
                     return
                         Select::make('governate2')
