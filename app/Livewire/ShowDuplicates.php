@@ -37,7 +37,7 @@ class ShowDuplicates extends Component  implements HasForms, HasTable
             if ( $this->cnt>1) 
             {    //return Beneficiary::query();
                 $data =$this->record->get_dups() ;
-               dump( $data);
+        //       dump( $data);
                return  $data;
             }
             else {
