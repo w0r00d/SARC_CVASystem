@@ -23,8 +23,12 @@ class ShowDuplicates extends Component  implements HasForms, HasTable
     use InteractsWithTable;
 
     public  $cnt;
-    public $test;
+    public $test = 1 ;
 
+    public function hydrate(){
+        $this->test ++;
+        $this->dispatch('refreshComponent');
+    }
     public function test(){
         $this->test =  Beneficiary::where('national_id',$this->record->national_id);
 
@@ -57,6 +61,7 @@ class ShowDuplicates extends Component  implements HasForms, HasTable
             Tables\Columns\TextColumn::make('transfer_value'),
     
     ],)
+
         ->emptyStateHeading('No duplicates found');
     }
 

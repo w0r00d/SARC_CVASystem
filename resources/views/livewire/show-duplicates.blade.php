@@ -1,6 +1,6 @@
 <div>
     
-<h1> HEADING </h1>
+<h1> HEADING: {{$this->test }} </h1>
 
 @if($this->cnt>1)
 

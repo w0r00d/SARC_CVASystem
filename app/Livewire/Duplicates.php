@@ -123,6 +123,7 @@ class Duplicates extends Component implements HasForms, HasTable
 
                 ]),              
             ])
+       
 
             ->modifyQueryUsing(function (Builder $query) {
                 if ($this->changeQ) {
