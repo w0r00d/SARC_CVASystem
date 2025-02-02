@@ -23,7 +23,7 @@ use Filament\Infolists\Components\Livewire;
 use Filament\Infolists\Infolist;
 use App\Livewire\ShowDuplicates;
 use Filament\Tables\Actions\ExportBulkAction;
-use App\Filament\Exports\PendingBeneficiaryExporter;
+use App\Filament\Exports\BeneficiaryExporter;
 class BeneficiaryResource extends Resource
 {
     protected static ?string $model = Beneficiary::class;
@@ -136,7 +136,7 @@ class BeneficiaryResource extends Resource
             ])
             ->bulkActions([
                 ExportBulkAction::make()
-                    ->exporter(PendingBeneficiaryExporter::class),
+                    ->exporter(BeneficiaryExporter::class),
             ]);
     }
 

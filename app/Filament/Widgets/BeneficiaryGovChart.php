@@ -22,7 +22,8 @@ class BeneficiaryGovChart extends ChartWidget
                     Beneficiary::where('governate', 'tartous')->count(),
                     Beneficiary::where('governate', 'latakia')->count(),
                     Beneficiary::where('governate', 'tartous')->count(),
-                    Beneficiary::where('governate', 'rural damascus')->count(),],
+                    Beneficiary::where('governate', 'rural damascus')->count(),
+                ],
                  
                 ],
             ],

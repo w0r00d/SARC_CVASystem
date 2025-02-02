@@ -2,29 +2,28 @@
 
 namespace App\Filament\Exports;
 
-use App\Models\PendingBeneficiary;
+use App\Models\Beneficiary;
 use Filament\Actions\Exports\ExportColumn;
 use Filament\Actions\Exports\Exporter;
 use Filament\Actions\Exports\Models\Export;
 
-class PendingBeneficiaryExporter extends Exporter
+class BeneficiaryExporter extends Exporter
 {
-    protected static ?string $model = PendingBeneficiary::class;
+    protected static ?string $model = Beneficiary::class;
 
     public static function getColumns(): array
     {
-        return [
-       
+        return [      
             ExportColumn::make('national_id'),
             ExportColumn::make('fullname'),
             ExportColumn::make('phonenumber'),
-            ExportColumn::make('recipient_name'),
+            ExportColumn::make('recipient_name'), 
             ExportColumn::make('recipient_phone'),
-            ExportColumn::make('recipient_nid'),
+            ExportColumn::make('recipient_nid'),     
             ExportColumn::make('governate'),
             ExportColumn::make('project_name'),
             ExportColumn::make('partner'),
-            ExportColumn::make('transfer_value'),
+            ExportColumn::make('transfer_value'),  
             ExportColumn::make('transfer_count'),
             ExportColumn::make('project_start_date'),
             ExportColumn::make('project_end_date'),
@@ -38,7 +37,7 @@ class PendingBeneficiaryExporter extends Exporter
 
     public static function getCompletedNotificationBody(Export $export): string
     {
-        $body = 'Your pending beneficiary export has completed and ' . number_format($export->successful_rows) . ' ' . str('row')->plural($export->successful_rows) . ' exported.';
+        $body = 'Your beneficiary export has completed and ' . number_format($export->successful_rows) . ' ' . str('row')->plural($export->successful_rows) . ' exported.';
 
         if ($failedRowsCount = $export->getFailedRowsCount()) {
             $body .= ' ' . number_format($failedRowsCount) . ' ' . str('row')->plural($failedRowsCount) . ' failed to export.';

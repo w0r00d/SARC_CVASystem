@@ -14,8 +14,16 @@ class LoginTest extends DuskTestCase
     public function testExample(): void
     {
         $this->browse(function (Browser $browser) {
-            $browser->visit('/')
+            $browser->visit('/admin')
                     ->assertSee('Laravel');
         });
     }
+
+    public function testingExample(): void
+    {
+    $this->browse(function (Browser $browser) {
+        $browser->loginAs(User::find(1))
+              ->visit('/admin');
+    });
+}
 }
