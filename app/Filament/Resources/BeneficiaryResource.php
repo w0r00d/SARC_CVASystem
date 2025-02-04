@@ -49,8 +49,7 @@ class BeneficiaryResource extends Resource
                     ->numeric(),
                 Select::make('governate')
                     ->options(
-                         Governates::all()
-                 
+                         Governates::all()               
                     )->required()
                     ->disabledOn('edit'),
                 TextInput::make('project_name')->required()
@@ -74,7 +73,6 @@ class BeneficiaryResource extends Resource
                     'voucher' => 'voucher',
                 ])
                     ->disabledOn('edit'),
-
             ]);
     }
 
@@ -128,7 +126,9 @@ class BeneficiaryResource extends Resource
             ->actions([
                 Tables\Actions\EditAction::make()->modal(),
                 Tables\Actions\ViewAction::make()->modal(),
-             /*     Action::make('Show Duplicates')->infolist([
+             /*   
+            Action::make('Show Duplicates')
+            ->infolist([
             Livewire::make(ShowDuplicates::class),
                 ])
                 ->icon('heroicon-o-magnifying-glass-circle')

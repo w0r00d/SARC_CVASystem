@@ -18,9 +18,7 @@ class Beneficiary extends Model
     {   
       
         return Beneficiary::where('national_id', 'like', $this->national_id);
- 
-
-    }
+     }
     public function getCount(){
 
         return Beneficiary::where('national_id', $this->national_id)->count();
