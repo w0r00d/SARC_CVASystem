@@ -113,7 +113,6 @@ class UserResource extends Resource
                         'Rural Damascus' => 'Rural Damascus',
                         'Der-ezzor' => 'Der-ezzor',
                         'Alhasaka' => 'Alhasaka',
-
                     ]),
                 SelectFilter::make('role')->options([
                     'Super Admin' => 'Super Admin',

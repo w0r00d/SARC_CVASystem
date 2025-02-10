@@ -175,7 +175,7 @@ class BeneficiaryResource extends Resource
     }
    
     public static function getPages(): array
-    {
+    { 
         return [
             'index' => Pages\ListBeneficiaries::route('/'),
             'create' => Pages\CreateBeneficiary::route('/create'),
