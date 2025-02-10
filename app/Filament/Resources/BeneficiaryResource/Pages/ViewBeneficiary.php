@@ -93,23 +93,19 @@ class ViewBeneficiary extends ViewRecord
                     ]),                              
                 Section::make('Update Details')
                     ->icon('heroicon-s-pencil-square')
-                    ->columns(3)
+                    ->columns(2)
                     ->schema([
-                        Infolists\Components\TextEntry::make('updated_at')->icon('heroicon-s-calendar-days'),
-                        Infolists\Components\TextEntry::make('created_at')->icon('heroicon-s-calendar-days'),
+                       
+                        Infolists\Components\TextEntry::make('created_at')->icon('heroicon-s-calendar-days')
+                        ->placeholder('not updated'),
+                        Infolists\Components\TextEntry::make('updated_at')->icon('heroicon-s-calendar-days')
+                        ->placeholder('not updated'),
+                        Infolists\Components\TextEntry::make('created_by.name')->icon('heroicon-s-user')
+                        ->placeholder('not updated'),
+                        Infolists\Components\TextEntry::make('updated_by.name')->icon('heroicon-s-user')
+                        ->placeholder('not updated'),
                     ]),
 
-                Section::make('Duplicates')
-                    ->icon('heroicon-s-square-3-stack-3d')
-                    ->columns(3)
-                    ->schema([
-                        Infolists\Components\TextEntry::make('Number of duplicates')->icon('heroicon-s-chart-bar')
-                            ->state(function (Beneficiary $record): int {
-                                return $record->getCount();
-                            }
-                            ),
-
-                    ]),
               
             ]);
     }

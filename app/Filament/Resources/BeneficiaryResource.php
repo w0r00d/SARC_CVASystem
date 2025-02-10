@@ -24,6 +24,8 @@ use Filament\Infolists\Infolist;
 use App\Livewire\ShowDuplicates;
 use Filament\Tables\Actions\ExportBulkAction;
 use App\Filament\Exports\BeneficiaryExporter;
+use Filament\Forms\Components\Hidden;
+use Filament\Facades\Filament;
 class BeneficiaryResource extends Resource
 {
     protected static ?string $model = Beneficiary::class;
@@ -50,7 +52,15 @@ class BeneficiaryResource extends Resource
                 Select::make('governate')
                     ->options(
                          Governates::all()               
-                    )->required()
+                    )->when(!auth()->user()->isAdmin(), function (Select $select) {
+                        return
+                            Select::make('governate2')
+                                ->label('Governate')
+                                ->options([
+                                    auth()->user()->governate() => auth()->user()->governate(),
+    
+                                ]);
+                    })->required()
                     ->disabledOn('edit'),
                 TextInput::make('project_name')->required()
                     ->disabledOn('edit'),
@@ -67,12 +77,30 @@ class BeneficiaryResource extends Resource
                 DatePicker::make('recieve_date')->required()
                     ->disabledOn('edit'),
                 Select::make('sector')->options(Sectors::all())->required()
+                ->when(auth()->user()->isAdmin(), function (Select $select) {
+                    return
+                        Select::make('sector2')
+                            ->label('Sector')
+                            ->options(Sectors::all());
+                })
+                ->when(! auth()->user()->isAdmin(), function (Select $select) {
+                    return
+                        Select::make('sector2')
+                            ->label('Sector')
+                            ->options([
+                                auth()->user()->sector() => auth()->user()->sector(),
+                               
+                            ]);
+                })
                     ->disabledOn('edit'),
                 Select::make('modality')->options([
-                    'cash' => 'cash',
-                    'voucher' => 'voucher',
+                    'Cash' => 'Cash',
+                    'Voucher' => 'Voucher',
+                    'eVoucher' => 'eVoucher'
                 ])
                     ->disabledOn('edit'),
+               Hidden::make('created_by')
+                ->default(auth()->id()),
             ]);
     }
 
@@ -124,15 +152,14 @@ class BeneficiaryResource extends Resource
                 ]),
             ])
             ->actions([
-                Tables\Actions\EditAction::make()->modal(),
+                Tables\Actions\EditAction::make()
+                  ->mutateFormDataUsing(function (array $data): array {
+                    $data['updated_by'] = auth()->user()->id;
+             
+                    return $data;
+                })->modal(),
                 Tables\Actions\ViewAction::make()->modal(),
-             /*   
-            Action::make('Show Duplicates')
-            ->infolist([
-            Livewire::make(ShowDuplicates::class),
-                ])
-                ->icon('heroicon-o-magnifying-glass-circle')
-                ->color('#f0f'),   */            
+                
             ])
             ->bulkActions([
                 ExportBulkAction::make()
@@ -146,23 +173,7 @@ class BeneficiaryResource extends Resource
             //
         ];
     }
-    public function findDuplicatesAction(): Action
-    {
-        return Action::make('findDuplicates')
-        ->infolist([
-            Section::make()->schema([  TextEntry::make('fullname'),])
-         ])
-        ->action(function(){
-            
-            Notification::make()
-                ->title('Test')
-                ->body('The testing..')
-                ->success()
-                ->send();
-
-
-        });
-    }
+   
     public static function getPages(): array
     {
         return [

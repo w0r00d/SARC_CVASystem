@@ -55,7 +55,7 @@ class BeneficiaryImporter extends Importer
     public static function getOptionsFormComponents(): array
     {
         return [
-            Select::make('sector2')
+                 Select::make('sector2')
                 ->label('Sector')
                 ->options( Sectors::all())
                 ->when(auth()->user()->isAdmin(), function (Select $select) {
@@ -126,6 +126,7 @@ class BeneficiaryImporter extends Importer
             'partner' => $this->options['partner2'],
             'project_start_date' => $this->options['project_start_date2'],
             'project_end_date' => $this->options['project_end_date2'],
+            'created_by' => auth()->id()
 
         ]);
 

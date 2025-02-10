@@ -11,6 +11,7 @@ return new class extends Migration
     public function up(): void
     {
         DB::unprepared('
+
          CREATE TRIGGER beneficiary_name_history
             BEFORE UPDATE ON beneficiaries
             FOR EACH ROW
@@ -81,8 +82,13 @@ return new class extends Migration
             SET NEW.h_transfer_count = OLD.transfer_count;
             END IF;
         END;
-
-   
+        BEFORE UPDATE ON beneficiaries
+        FOR EACH ROW
+        BEGIN
+         IF NEW.updated_by != OLD.updated_by THEN
+            SET NEW.h_recipient_nid = OLD.recipient_nid;
+                 END IF;
+        END;
     ');
     }
 

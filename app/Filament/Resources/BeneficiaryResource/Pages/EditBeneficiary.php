@@ -13,12 +13,17 @@ class EditBeneficiary extends EditRecord
     protected function getHeaderActions(): array
     {
         return [
-            Actions\DeleteAction::make(),
+          //  Actions\DeleteAction::make(),
         ];
     }
-
+    protected function mutateFormDataBeforeSave(array $data): array
+    {
+        $data['updated_by'] = auth()->id();
+        dump( $data['fullname']);
+        return $data;
+    }
     protected function getRedirectURL(): string
     {
-        return $this->getResource()::getUrl('index');
+        return $this->getResource()::getUrl('view', ['record' => $this->record]);
     }
 }

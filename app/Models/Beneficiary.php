@@ -7,7 +7,7 @@ use Illuminate\Database\Eloquent\Model;
 class Beneficiary extends Model
 {
     //
-    public $fillable = ['national_id', 'fullname', 'phonenumber', 'recipient_name', 'recipient_phone', 'recipient_nid', 'governate', 'project_name', 'partner', 'transfer_value', 'transfer_count', 'project_start_date', 'project_end_date', 'recieve_date', 'sector', 'modality'];
+    public $fillable = ['national_id', 'fullname', 'phonenumber', 'recipient_name', 'recipient_phone', 'recipient_nid', 'governate', 'project_name', 'partner', 'transfer_value', 'transfer_count', 'project_start_date', 'project_end_date', 'recieve_date', 'sector', 'modality','created_by', 'updated_by'];
 
     public function get_dups_count()
     {
@@ -28,4 +28,10 @@ class Beneficiary extends Model
         return Date($this->created_at);
     }
 
+    public function updated_by(){
+        return $this->belongsTo(User::class, 'updated_by');
+    }
+    public function created_by(){
+        return $this->belongsTo(User::class, 'created_by');
+    }
 }
