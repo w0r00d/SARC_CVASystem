@@ -87,33 +87,11 @@ class UserResource extends Resource
             ->filters([
 
                 SelectFilter::make('sector')
-                    ->options([
-                        'All' => 'All Sectors',
-                        'Health' => 'Health',
-                        'Livelihood' => 'Livelihood',
-                        'Protection' => 'Protection',
-                        'Disaster Management' => 'Disaster Management',
-                        'Wash' => 'Wash',
-                        'Risk Education' => 'Risk Education',
-                    ]),
+                    ->options(Sectors::all()),
                 SelectFilter::make('governate')
-                    ->options([
-                        'All' => 'All Governate',
-                        'Damascus' => 'Damascus',
-                        'Aleppo' => 'Aleppo',
-                        'Homs' => 'Homs',
-                        'Hama' => 'Hama',
-                        'Latakia' => 'Latakia',
-                        'Tartous' => 'Tartous',
-                        'As-Sweida' => 'As-Sweida',
-                        'Ar-Raqqa' => 'Ar-Raqqa',
-                        'Daraa' => 'Daraa',
-                        'Idleb' => 'Idleb',
-                        'Quneitra' => 'Quneitra',
-                        'Rural Damascus' => 'Rural Damascus',
-                        'Der-ezzor' => 'Der-ezzor',
-                        'Alhasaka' => 'Alhasaka',
-                    ]),
+                    ->options(
+                   Governates::all()
+                    ),
                 SelectFilter::make('role')->options([
                     'Super Admin' => 'Super Admin',
                     'HQ Admin' => 'HQ Admin',

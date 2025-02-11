@@ -84,7 +84,6 @@ class Duplicates extends Component implements HasForms, HasTable
 
             ])->striped()
             ->heading('Beneficiaries Data')
-
             ->columns([
                 Tables\Columns\TextColumn::make('fullname')
                 /*->extraAttributes([
@@ -98,12 +97,13 @@ class Duplicates extends Component implements HasForms, HasTable
                         }
                         return [];
                     }),
-
                 Tables\Columns\TextColumn::make('governate'),
                 Tables\Columns\TextColumn::make('sector'),
                 Tables\Columns\TextColumn::make('modality'),
                 Tables\Columns\TextColumn::make('ben')
                     ->label('Beneficiary Type'),
+                    Tables\Columns\TextColumn::make('created_at')
+                    ->label('ct')->date(),
                 Tables\Columns\IconColumn::make('ben')
                 ->label('Pending/Old')
                     ->options([
@@ -122,9 +122,7 @@ class Duplicates extends Component implements HasForms, HasTable
                     'heroicon-o-x-mark' =>false,
 
                 ]),              
-            ])
-       
-
+            ])    
             ->modifyQueryUsing(function (Builder $query) {
                 if ($this->changeQ) {
                     //return Beneficiary::query();
@@ -147,8 +145,7 @@ class Duplicates extends Component implements HasForms, HasTable
                     Section::make('Beneficiary Data')
                     ->columns(3)
                     ->schema([
-                    TextEntry::make('fullname')
-                  ,
+                    TextEntry::make('fullname'),                 
                     Infolists\Components\TextEntry::make('national_id'),
                     Infolists\Components\TextEntry::make('phonenumber')
                         ->label('Phone number')
