@@ -1,7 +1,8 @@
 <?php
-
 namespace App\Filament\Resources;
 
+use App\Enums\Governates;
+use App\Enums\Sectors;
 use App\Filament\Resources\UserResource\Pages;
 use App\Models\User;
 use Filament\Forms\Components\Select;
@@ -12,14 +13,12 @@ use Filament\Tables;
 use Filament\Tables\Filters\SelectFilter;
 use Filament\Tables\Table;
 use Illuminate\Database\Eloquent\Builder;
-use App\Enums\Governates;
-use App\Enums\Sectors;
 
 class UserResource extends Resource
 {
-    protected static ?string $model = User::class;
-    protected static ?int $navigationSort = 4;
-    protected static ?string $navigationIcon = 'heroicon-o-user-circle';
+    protected static ?string $model           = User::class;
+    protected static ?int $navigationSort     = 4;
+    protected static ?string $navigationIcon  = 'heroicon-o-user-circle';
     protected static ?string $navigationGroup = 'Settings';
     public static function form(Form $form): Form
     {
@@ -31,20 +30,20 @@ class UserResource extends Resource
                     ->password(),
                 Select::make('governate')
                     ->options([
-                      "Access to All Data" => [  'All' => 'All',],
-                      "or choose one Governate"=>   Governates::all()
+                        "Access to All Data"      => ['All' => 'All'],
+                        "or choose one Governate" => Governates::all(),
 
                     ])->required(),
                 Select::make('sector')->options([
-                  "Full Access"=>   [   'All' => 'All',],
-                  "Or choose one Sector "=>  Sectors::all()
+                    "Full Access"           => ['All' => 'All'],
+                    "Or choose one Sector " => Sectors::all(),
                 ])->required(),
                 Select::make('role')->options([
-                    'Super Admin' => 'Super Admin',
-                    'HQ Admin' => 'HQ Admin',
-                    'Branch Admin' => 'Branch Admin',
+                    'Super Admin'      => 'Super Admin',
+                    'HQ Admin'         => 'HQ Admin',
+                    'Branch Admin'     => 'Branch Admin',
                     'Department Admin' => 'Department Admin',
-                    'Visitor' => 'Visitor',
+                    'Visitor'          => 'Visitor',
                 ])
                     ->required(),
             ]);
@@ -90,19 +89,19 @@ class UserResource extends Resource
                     ->options(Sectors::all()),
                 SelectFilter::make('governate')
                     ->options(
-                   Governates::all()
+                        Governates::all()
                     ),
                 SelectFilter::make('role')->options([
-                    'Super Admin' => 'Super Admin',
-                    'HQ Admin' => 'HQ Admin',
-                    'Branch Admin' => 'Branch Admin',
+                    'Super Admin'      => 'Super Admin',
+                    'HQ Admin'         => 'HQ Admin',
+                    'Branch Admin'     => 'Branch Admin',
                     'Department Admin' => 'Department Admin',
-                    'Visitor' => 'Visitor',
+                    'Visitor'          => 'Visitor',
                 ]),
             ])
             ->actions([
                 Tables\Actions\EditAction::make()
-                    ->visible(fn (User $record): bool => auth()->user()->role === 'Super Admin'),
+                    ->visible(fn(User $record): bool => auth()->user()->role === 'Super Admin'),
 
             ])
             ->bulkActions([
@@ -129,9 +128,9 @@ class UserResource extends Resource
     public static function getPages(): array
     {
         return [
-            'index' => Pages\ListUsers::route('/'),
+            'index'  => Pages\ListUsers::route('/'),
             'create' => Pages\CreateUser::route('/create'),
-            'edit' => Pages\EditUser::route('/{record}/edit'),
+            'edit'   => Pages\EditUser::route('/{record}/edit'),
         ];
     }
 }

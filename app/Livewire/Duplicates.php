@@ -1,29 +1,25 @@
 <?php
-
 namespace App\Livewire;
 
 use App\Filament\Exports\PendingBeneficiaryExporter;
 use App\Filament\Imports\PendingBeneficiaryImporter;
+use App\Models\Beneficiary;
 use App\Models\BeneficiaryView;
 use App\Models\PendingBeneficiary;
-use App\Models\Beneficiary;
 use Filament\Forms\Concerns\InteractsWithForms;
 use Filament\Forms\Contracts\HasForms;
+use Filament\Infolists;
+use Filament\Infolists\Components\Section;
+use Filament\Infolists\Components\TextEntry;
+use Filament\Infolists\Infolist;
 use Filament\Tables;
 use Filament\Tables\Actions\ExportBulkAction;
 use Filament\Tables\Actions\ImportAction;
 use Filament\Tables\Concerns\InteractsWithTable;
 use Filament\Tables\Contracts\HasTable;
-use Filament\Tables\Filters\SelectFilter;
 use Filament\Tables\Table;
 use Illuminate\Database\Eloquent\Builder;
 use Livewire\Component;
-use Filament\Forms\Components\TextInput;
-use Filament\Infolists\Components\TextEntry;
-use Filament\Infolists;
-use Filament\Infolists\Infolist;
-use Filament\Tables\Enums\ActionsPosition;
-use Filament\Infolists\Components\Section;
 
 class Duplicates extends Component implements HasForms, HasTable
 {
@@ -35,8 +31,8 @@ class Duplicates extends Component implements HasForms, HasTable
 
     public $changeQ = false;
 
-    public $t = 'worood';
-    public $cnt = 0; 
+    public $t            = 'worood';
+    public $cnt          = 0;
     protected $listeners = ['refreshComponent' => '$refresh'];
 
     public function test()
@@ -52,7 +48,7 @@ class Duplicates extends Component implements HasForms, HasTable
             $this->changeQ = true;
         }
         $this->dispatch('refreshComponent');
-        
+
     }
 
     public function clearing()
@@ -77,22 +73,22 @@ class Duplicates extends Component implements HasForms, HasTable
                     ->color('blue'),
                 Tables\Actions\Action::make('Clear Pending Data')
                     ->extraAttributes([
-                        'wire:click' => 'clearing',
-                        'wire:confirm' => 'Are you sure you want to clear pending data? This cannot be undone.'
+                        'wire:click'   => 'clearing',
+                        'wire:confirm' => 'Are you sure you want to clear pending data? This cannot be undone.',
                     ])
                     ->color('primary'),
 
-            ])->striped()
+            ])
             ->heading('Beneficiaries Data')
             ->columns([
                 Tables\Columns\TextColumn::make('fullname')
                 /*->extraAttributes([
                         'style' => ' background-color: #0f0; color:#fff;',
-                    ])*/,
+                    ])*/    ,
                 Tables\Columns\TextColumn::make('national_id')
                     ->extraAttributes(function (BeneficiaryView $beneficiaryView) {
                         // dump($beneficiaryView->ben);
-                        if ($beneficiaryView->checkRecord() && $beneficiaryView->ben =='pending') {
+                        if ($beneficiaryView->checkRecord() && $beneficiaryView->ben == 'pending') {
                             return ['style' => ' background-color: #c93232;'];
                         }
                         return [];
@@ -102,75 +98,75 @@ class Duplicates extends Component implements HasForms, HasTable
                 Tables\Columns\TextColumn::make('modality'),
                 Tables\Columns\TextColumn::make('ben')
                     ->label('Beneficiary Type'),
-                    Tables\Columns\TextColumn::make('created_at')
+                Tables\Columns\TextColumn::make('created_at')
                     ->label('ct')->date(),
                 Tables\Columns\IconColumn::make('ben')
-                ->label('Pending/Old')
+                    ->label('Pending/Old')
                     ->options([
                         'heroicon-o-x-circle',
-                        'heroicon-o-no-symbol' => 'ben',
+                        'heroicon-o-no-symbol'          => 'ben',
                         'heroicon-o-exclamation-circle' => 'pending',
                     ]),
-                    Tables\Columns\IconColumn::make('Is Duplicate')
-                ->getStateUsing(function(BeneficiaryView $record) {
-                    // return whatever you need to show
-                    return $record->checkRecord();
-                })
-                ->options([
-                    'heroicon-o-x-circle',
-                    'heroicon-o-check' => true,
-                    'heroicon-o-x-mark' =>false,
+                Tables\Columns\IconColumn::make('Is Duplicate')
+                    ->getStateUsing(function (BeneficiaryView $record) {
+                        // return whatever you need to show
+                        return $record->checkRecord();
+                    })
+                    ->options([
+                        'heroicon-o-x-circle',
+                        'heroicon-o-check'  => true,
+                        'heroicon-o-x-mark' => false,
 
-                ]),              
-            ])    
+                    ]),
+            ])->striped()
             ->modifyQueryUsing(function (Builder $query) {
                 if ($this->changeQ) {
                     //return Beneficiary::query();
                     $this->cnt = BeneficiaryView::getDups()->count();
-                   return BeneficiaryView::getDups();
+                    return BeneficiaryView::getDups();
                 } else {
-                    return BeneficiaryView::where('ben','pending');
-                  //return Beneficiary::query();
+                    return BeneficiaryView::where('ben', 'pending');
+                    //return Beneficiary::query();
                 }
             })
-            ->query(BeneficiaryView::where('ben','pending'))
+            ->query(BeneficiaryView::where('ben', 'pending'))
 
             ->bulkActions([
                 ExportBulkAction::make()
                     ->exporter(PendingBeneficiaryExporter::class),
             ])
             ->emptyStateHeading('No pending Beneficiaries to check.')
-            ->actions([               
+            ->actions([
                 Tables\Actions\ViewAction::make()->infolist([
                     Section::make('Beneficiary Data')
-                    ->columns(3)
-                    ->schema([
-                    TextEntry::make('fullname'),                 
-                    Infolists\Components\TextEntry::make('national_id'),
-                    Infolists\Components\TextEntry::make('phonenumber')
-                        ->label('Phone number')
-                        ->icon('heroicon-s-phone'),
-                        Infolists\Components\TextEntry::make('recipient_name'),
-                        Infolists\Components\TextEntry::make('recipient_nid'),
-                        Infolists\Components\TextEntry::make('recipient_phone')
-                            ->icon('heroicon-s-phone'),
+                        ->columns(3)
+                        ->schema([
+                            TextEntry::make('fullname'),
+                            Infolists\Components\TextEntry::make('national_id'),
+                            Infolists\Components\TextEntry::make('phonenumber')
+                                ->label('Phone number')
+                                ->icon('heroicon-s-phone'),
+                            Infolists\Components\TextEntry::make('recipient_name'),
+                            Infolists\Components\TextEntry::make('recipient_nid'),
+                            Infolists\Components\TextEntry::make('recipient_phone')
+                                ->icon('heroicon-s-phone'),
                             Infolists\Components\TextEntry::make('project_name'),
-                    Infolists\Components\TextEntry::make('partner'),
-                    Infolists\Components\TextEntry::make('sector'),
-                    Infolists\Components\TextEntry::make('modality'),
-                    Infolists\Components\TextEntry::make('project_start_date')
-                        ->icon('heroicon-s-calendar-days'),
-                    Infolists\Components\TextEntry::make('project_end_date')
-                        ->icon('heroicon-s-calendar-days'),
-                        Infolists\Components\TextEntry::make('transfer_value')
-                        ->icon('heroicon-s-banknotes'),
-                    Infolists\Components\TextEntry::make('transfer_count'),
-                    Infolists\Components\TextEntry::make('recieve_date')
-                        ->icon('heroicon-s-calendar-days'),     
-                    Infolists\Components\TextEntry::make('updated_at')->icon('heroicon-s-calendar-days'),
-                    Infolists\Components\TextEntry::make('created_at')->icon('heroicon-s-calendar-days'),        
-                ]),]),
-            ]);     
+                            Infolists\Components\TextEntry::make('partner'),
+                            Infolists\Components\TextEntry::make('sector'),
+                            Infolists\Components\TextEntry::make('modality'),
+                            Infolists\Components\TextEntry::make('project_start_date')
+                                ->icon('heroicon-s-calendar-days'),
+                            Infolists\Components\TextEntry::make('project_end_date')
+                                ->icon('heroicon-s-calendar-days'),
+                            Infolists\Components\TextEntry::make('transfer_value')
+                                ->icon('heroicon-s-banknotes'),
+                            Infolists\Components\TextEntry::make('transfer_count'),
+                            Infolists\Components\TextEntry::make('recieve_date')
+                                ->icon('heroicon-s-calendar-days'),
+                            Infolists\Components\TextEntry::make('updated_at')->icon('heroicon-s-calendar-days'),
+                            Infolists\Components\TextEntry::make('created_at')->icon('heroicon-s-calendar-days'),
+                        ])]),
+            ]);
     }
     public static function getPages(): array
     {

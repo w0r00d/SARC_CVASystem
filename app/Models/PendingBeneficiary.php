@@ -1,5 +1,4 @@
 <?php
-
 namespace App\Models;
 
 use Illuminate\Database\Eloquent\Model;
@@ -14,9 +13,9 @@ class PendingBeneficiary extends Model
 
         $pen = PendingBeneficiary::get('national_id'); // getting emps to find their duplicates
 
-        $dups = Beneficiary::whereIn('national_id', $pen)->get('national_id')->union($pen); // getting the employees with same nid
+        $dups  = Beneficiary::whereIn('national_id', $pen)->get('national_id')->union($pen); // getting the employees with same nid
         $dups2 = Beneficiary::whereIn('national_id', $pen);
-        $d = BeneficiaryView::whereIn('national_id', $dups)->orderBy('national_id');
+        $d     = BeneficiaryView::whereIn('national_id', $dups)->orderBy('national_id');
 
         return $d;
 
