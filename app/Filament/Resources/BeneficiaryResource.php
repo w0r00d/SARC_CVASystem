@@ -82,8 +82,7 @@ class BeneficiaryResource extends Resource
                         Select::make('sector2')
                             ->label('Sector')
                             ->options([
-                                auth()->user()->sector() => auth()->user()->sector(),
-
+                                auth()->user()->sector() => auth()->user()->sector(),                                
                             ]);
                     })
                     ->disabledOn('edit'),

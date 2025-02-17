@@ -18,33 +18,28 @@ class PendingBeneficiaryImporter extends Importer
 
     public static function getColumns(): array
     {
-        return [ ImportColumn::make('national_id')
+        return [ 
+        ImportColumn::make('national_id')
         ->requiredMapping()
         ->rules(['required']),
-    ImportColumn::make('fullname')
+        ImportColumn::make('fullname')
         ->requiredMapping()
         ->rules(['required', 'max:255']),
-    ImportColumn::make('phonenumber')
+        ImportColumn::make('phonenumber')
         ->requiredMapping()
         ->rules(['required', 'max:10']),
-    ImportColumn::make('recipient_name')
-        ->requiredMapping()
+        ImportColumn::make('recipient_name')
         ->rules(['required', 'max:255']),
-    ImportColumn::make('recipient_phone')
-        ->requiredMapping()
+        ImportColumn::make('recipient_phone') 
         ->rules(['required', 'max:10']),
-    ImportColumn::make('recipient_nid')
-        ->requiredMapping()
-        ->rules(['required', 'max:11']),
+        ImportColumn::make('recipient_nid')
+           ->rules(['required', 'max:11']),
         ImportColumn::make('transfer_value')
-        ->requiredMapping()
         ->rules(['required', 'max:255']),
-    ImportColumn::make('transfer_count')
-        ->requiredMapping()
+        ImportColumn::make('transfer_count')
         ->rules(['required']),
         ImportColumn::make('recieve_date')
-        ->requiredMapping()
-        ->rules(['required']),
+             ->rules(['required']),
     ];
     }
     public static function getOptionsFormComponents(): array
@@ -91,9 +86,8 @@ class PendingBeneficiaryImporter extends Importer
                             ->label('Governate')
                             ->options([
                                 auth()->user()->governate => auth()->user()->governate,
-
                             ]);
-                }),
+                })->required(),
             TextInput::make('project_name2')
                 ->label('Project Name'),
             TextInput::make('partner2')
