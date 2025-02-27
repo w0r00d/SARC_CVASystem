@@ -52,7 +52,6 @@ class BeneficiaryResource extends Resource
                         ->label('Governate')
                         ->options([
                             auth()->user()->governate() => auth()->user()->governate(),
-
                         ]);
                 })->required()
                     ->disabledOn('edit'),

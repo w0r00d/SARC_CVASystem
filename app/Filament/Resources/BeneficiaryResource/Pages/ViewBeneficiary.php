@@ -39,7 +39,6 @@ class ViewBeneficiary extends ViewRecord
                             ->placeholder('not updated')
                             ->icon('heroicon-s-phone'),
                     ]),
-
                 Section::make('Recipient Personal Data')
                     ->icon('heroicon-s-user')
                     ->columns(3)
@@ -99,10 +98,12 @@ class ViewBeneficiary extends ViewRecord
                         Infolists\Components\TextEntry::make('created_at')->icon('heroicon-s-calendar-days')
                         ->placeholder('not updated'),
                         Infolists\Components\TextEntry::make('updated_at')->icon('heroicon-s-calendar-days')
+                        ->label('Last updated at')
                         ->placeholder('not updated'),
                         Infolists\Components\TextEntry::make('created_by.name')->icon('heroicon-s-user')
                         ->placeholder('not updated'),
                         Infolists\Components\TextEntry::make('updated_by.name')->icon('heroicon-s-user')
+                        ->label('Last updated by')
                         ->placeholder('not updated'),
                     ]),
 
