@@ -37,8 +37,10 @@ return new class extends Migration
             $table->date('recieve_date');
             $table->string('sector');
             $table->string('modality');
+
             $table->foreignId('created_by')->nullable()->constrained('users')->nullOnDelete();
             $table->foreignId('updated_by')->nullable()->constrained('users')->nullOnDelete();
+            
             $table->timestamp('created_at')->useCurrent();
             $table->timestamp('updated_at')->nullable()->useCurrentOnUpdate();
         });

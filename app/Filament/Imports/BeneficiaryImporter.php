@@ -63,7 +63,8 @@ class BeneficiaryImporter extends Importer
                         Select::make('sector2')
                             ->label('Sector')
                             ->options(Sectors::all());
-                })->when(! auth()->user()->isAdmin(), function (Select $select) {
+                })
+                ->when(! auth()->user()->isAdmin(), function (Select $select) {
                     return
                         Select::make('sector2')
                             ->label('Sector')
@@ -89,9 +90,10 @@ class BeneficiaryImporter extends Importer
                         Select::make('governate2')
                             ->label('Governate')
                             ->options(
-                                fn () =>  Governates::all() 
+                                 Governates::all() 
                             );
-                })->when(! auth()->user()->isAdmin(), function (Select $select) {
+                })
+                ->when(! auth()->user()->isAdmin(), function (Select $select) {
                     return
                         Select::make('governate2')
                             ->label('Governate')
