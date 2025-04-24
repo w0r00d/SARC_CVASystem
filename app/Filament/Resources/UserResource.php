@@ -13,7 +13,8 @@ use Filament\Tables;
 use Filament\Tables\Filters\SelectFilter;
 use Filament\Tables\Table;
 use Illuminate\Database\Eloquent\Builder;
-
+use Filament\Tables\Actions\ExportBulkAction;
+use App\Filament\Exports\UserExporter;
 class UserResource extends Resource
 {
     protected static ?string $model           = User::class;
@@ -107,7 +108,9 @@ class UserResource extends Resource
             ])
             ->bulkActions([
                 Tables\Actions\BulkActionGroup::make([
-                    Tables\Actions\DeleteBulkAction::make(),
+                //    Tables\Actions\DeleteBulkAction::make(),
+                    ExportBulkAction::make()
+                    ->exporter(UserExporter::class),
                 ]),
             ]);
     }

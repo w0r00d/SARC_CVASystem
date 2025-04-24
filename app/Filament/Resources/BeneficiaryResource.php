@@ -4,7 +4,8 @@ namespace App\Filament\Resources;
 use App\Enums\Governates;
 use App\Enums\Sectors;
 use App\Filament\Exports\BeneficiaryExporter;
-use App\Filament\Imports\BeneficiaryImporter;
+//use App\Filament\Imports\BeneficiaryImporter;
+use App\Filament\Imports\BeneficiaryOldImporter;
 use App\Filament\Resources\BeneficiaryResource\Pages;
 use App\Models\Beneficiary;
 use Filament\Forms\Components\DatePicker;
@@ -38,7 +39,7 @@ class BeneficiaryResource extends Resource
                     ->length(10)
                     ->numeric(),
                 TextInput::make('recipient_name')->required()
-                    ->alpha(),
+                   ,
                 TextInput::make('recipient_phone')->required()
                     ->numeric(),
                 TextInput::make('recipient_nid')->required()
@@ -100,11 +101,15 @@ class BeneficiaryResource extends Resource
     {
         return $table
             ->headerActions([
+                /*
                 ImportAction::make()
                     ->importer(BeneficiaryImporter::class)
                     ->options([
                         'updateExisting' => false,
-                    ]),
+                    ]),*/
+                    ImportAction::make()
+                    ->importer(BeneficiaryOldImporter::class)
+                   ->label('Legacy upload'),
 
             ])->striped()
             ->heading('Beneficiaries')
