@@ -1,17 +1,19 @@
 <?php
 namespace App\Filament\Resources;
 
+use Filament\Notifications\Notification;
 use App\Enums\Governates;
 use App\Enums\Sectors;
 use App\Filament\Exports\BeneficiaryExporter;
-//use App\Filament\Imports\BeneficiaryImporter;
-use App\Filament\Imports\BeneficiaryOldImporter;
+use App\Filament\Imports\BeneficiaryImporter;
+//use App\Filament\Imports\BeneficiaryOldImporter;
 use App\Filament\Resources\BeneficiaryResource\Pages;
 use App\Models\Beneficiary;
 use Filament\Forms\Components\DatePicker;
 use Filament\Forms\Components\Hidden;
 use Filament\Forms\Components\Select;
 use Filament\Forms\Components\TextInput;
+use Filament\Forms\Components\FileUpload;
 use Filament\Forms\Form;
 use Filament\Resources\Resource;
 use Filament\Tables;
@@ -20,6 +22,10 @@ use Filament\Tables\Actions\ImportAction;
 use Filament\Tables\Filters\SelectFilter;
 use Filament\Tables\Table;
 use Illuminate\Database\Eloquent\Builder;
+use Filament\Tables\Actions;
+use App\Jobs\ImportBenFromCsv;
+use Illuminate\Support\Facades\Storage;
+
 
 class BeneficiaryResource extends Resource
 {
@@ -27,6 +33,7 @@ class BeneficiaryResource extends Resource
     protected static ?string $navigationGroup = 'Projects';
     protected static ?string $navigationIcon  = 'heroicon-o-user-group';
 
+    
     public static function form(Form $form): Form
     {
         return $form
@@ -101,15 +108,44 @@ class BeneficiaryResource extends Resource
     {
         return $table
             ->headerActions([
-                /*
-                ImportAction::make()
+                Actions\Action::make('Import CSV')
+                ->label('Import CSV')
+                ->form([
+                   FileUpload::make('csv_file')
+                   ->disk('local') // optional: but you can specify to use 'local' here
+                   ->directory('temp')
+                   ->preserveFilenames()
+                   ->acceptedFileTypes(['text/csv', 'text/plain', 'application/vnd.ms-excel'])
+                   ->required(), // Store on the local disk, or change as needed
+                ])
+                ->action(function (array $data) {
+
+                    // First, check if temp file exists
+                $tempPath = $data['csv_file']; // 'temp/filename.csv'
+
+                 if (!Storage::disk('local')->exists($tempPath)) {
+                  throw new \Exception('Uploaded file does not exist.');
+                    }
+
+             // Now move it to the "imports" folder
+                $newPath = str_replace('temp/', 'imports/', $tempPath);
+                Storage::disk('local')->move($tempPath, $newPath);
+                    ImportBenFromCsv::dispatch($newPath);
+
+                  Notification::make()
+                        ->title('Import started!')
+                        ->success()
+                        ->send();
+                }),
+              
+                 /* 
+                   ImportAction::make()
                     ->importer(BeneficiaryImporter::class)
                     ->options([
                         'updateExisting' => false,
-                    ]),*/
-                    ImportAction::make()
+                    ]),  ImportAction::make()
                     ->importer(BeneficiaryOldImporter::class)
-                   ->label('Legacy upload'),
+                   ->label('Legacy upload'),*/
 
             ])->striped()
             ->heading('Beneficiaries')
@@ -163,7 +199,7 @@ class BeneficiaryResource extends Resource
                     ->exporter(BeneficiaryExporter::class),
             ]);
     }
-
+    
     public static function getRelations(): array
     {
         return [
