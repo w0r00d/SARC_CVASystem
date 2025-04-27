@@ -16,6 +16,7 @@ class PendingBeneficiaryImporter extends Importer
 {
     protected static ?string $model = PendingBeneficiary::class;
 
+
     public static function getColumns(): array
     {
         return [ 
@@ -25,24 +26,12 @@ class PendingBeneficiaryImporter extends Importer
         ImportColumn::make('fullname')
         ->requiredMapping()
         ->rules(['required', 'max:255']),
-        ImportColumn::make('phonenumber')
-        ->requiredMapping()
-        ->rules(['required', 'max:10']),
-        ImportColumn::make('recipient_name')
-        ->rules(['required', 'max:255']),
-        ImportColumn::make('recipient_phone') 
-        ->rules(['required', 'max:10']),
-        ImportColumn::make('recipient_nid')
-           ->rules(['required', 'max:11']),
-        ImportColumn::make('transfer_value')
-        ->rules(['required', 'max:255']),
-        ImportColumn::make('transfer_count')
-        ->rules(['required']),
-        ImportColumn::make('recieve_date')
-             ->rules(['required']),
+     
+   
+
     ];
     }
-    
+    /*
     public static function getOptionsFormComponents(): array
     {
         return [
@@ -102,9 +91,10 @@ class PendingBeneficiaryImporter extends Importer
 
         ];
     }
-
+*/
     public function resolveRecord(): ?PendingBeneficiary
     {
+        /*
         return PendingBeneficiary::firstOrNew([
             //     // Update existing records, matching them by `$this->data['column_name']`
             'national_id' => $this->data['national_id'],
@@ -117,13 +107,10 @@ class PendingBeneficiaryImporter extends Importer
             'project_end_date' => $this->options['project_end_date2'],
 
         ]);
-
+*/
         return new PendingBeneficiary();
     }
-    public function beforeCreate(): void
-    {
-        dump($this->data);
-    }
+
     public static function getCompletedNotificationBody(Import $import): string
     {
         $body = 'Your pending beneficiary import has completed and ' . number_format($import->successful_rows) . ' ' . str('row')->plural($import->successful_rows) . ' imported.';

@@ -93,6 +93,7 @@ class Duplicates extends Component implements HasForms, HasTable
                         }
                         return [];
                     }),
+                    /*
                 Tables\Columns\TextColumn::make('governate'),
                 Tables\Columns\TextColumn::make('sector'),
                 Tables\Columns\TextColumn::make('modality'),
@@ -118,7 +119,9 @@ class Duplicates extends Component implements HasForms, HasTable
                         'heroicon-o-x-mark' => false,
 
                     ]),
-            ])->striped()
+                    */
+            ])
+            ->striped()
             ->modifyQueryUsing(function (Builder $query) {
                 if ($this->changeQ) {
                     //return Beneficiary::query();

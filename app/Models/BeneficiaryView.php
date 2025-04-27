@@ -19,7 +19,7 @@ class BeneficiaryView extends Model
         $dups = Beneficiary::whereIn('national_id', $pen)->get('national_id')->union($pen); // getting the employees with same nid
         $dups2 = Beneficiary::whereIn('national_id', $pen);
         $d = BeneficiaryView::whereIn('national_id', $dups)->orderBy('national_id');
-
+        dump($d);
         return $d;
 
     }

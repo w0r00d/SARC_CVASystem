@@ -151,14 +151,15 @@ class BeneficiaryResource extends Resource
             ->heading('Beneficiaries')
             ->columns([
                 //
-                Tables\Columns\TextColumn::make('statement_num')->searchable()->sortable(),
+                Tables\Columns\TextColumn::make('statement_num')->searchable()->sortable()->label('Statement'),
                 Tables\Columns\TextColumn::make('fullname')->searchable()->sortable(),
                 Tables\Columns\TextColumn::make('national_id')->searchable()->sortable(),
                 Tables\Columns\TextColumn::make('governate')->searchable()->sortable(),
                 Tables\Columns\TextColumn::make('sector')->searchable()->sortable(),
                 //   Tables\Columns\TextColumn::make('modality')->searchable()->sortable(),
                 Tables\Columns\TextColumn::make('project_name')->searchable()->sortable(),
-                Tables\Columns\TextColumn::make('created_at')->date()->searchable()->sortable(),
+                Tables\Columns\TextColumn::make('created_at')->date()->searchable()->sortable()
+                ->toggleable(isToggledHiddenByDefault: true),
             ])->striped()
             ->groups(['national_id', 'governate', 'sector', 'modality'])
             // ->query(Beneficiary::query())
