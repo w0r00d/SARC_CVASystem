@@ -28,6 +28,8 @@ return new class extends Migration
             $table->string('governate');
             $table->string('project_name');
             $table->string('partner');
+            $table->string('donor');
+            $table->integer('statement_num');
             $table->integer('transfer_value');
             $table->integer('h_transfer_value')->nullable();
             $table->integer('transfer_count');

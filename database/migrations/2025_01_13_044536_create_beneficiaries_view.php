@@ -24,6 +24,7 @@ return new class extends Migration
         b.governate ,
         b.project_name ,
         b.partner ,
+        b.donor ,
         b.transfer_value ,
         b.transfer_count  ,
         b.project_start_date ,

@@ -63,6 +63,7 @@ class ViewBeneficiary extends ViewRecord
                     ->icon('heroicon-s-information-circle')
                     ->columns(3)
                     ->schema([
+                        Infolists\Components\TextEntry::make('statement_num')->label('Statement Number'),
                         Infolists\Components\TextEntry::make('project_name'),
                         Infolists\Components\TextEntry::make('partner'),
                         Infolists\Components\TextEntry::make('sector'),

@@ -6,7 +6,7 @@ use Illuminate\Database\Eloquent\Model;
 class Beneficiary extends Model
 {
     //
-    public $fillable = ['national_id', 'fullname', 'phonenumber', 'recipient_name', 'recipient_phone', 'recipient_nid', 'governate', 'project_name', 'partner', 'transfer_value', 'transfer_count', 'project_start_date', 'project_end_date', 'recieve_date', 'sector', 'modality', 'created_by', 'updated_by'];
+    public $fillable = ['national_id', 'fullname', 'phonenumber', 'recipient_name', 'recipient_phone', 'recipient_nid', 'governate', 'project_name', 'partner', 'donor', 'statement_num', 'transfer_value', 'transfer_count', 'project_start_date', 'project_end_date', 'recieve_date', 'sector', 'modality', 'created_by', 'updated_by'];
 
     public function get_dups_count()
     {

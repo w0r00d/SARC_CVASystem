@@ -151,6 +151,7 @@ class BeneficiaryResource extends Resource
             ->heading('Beneficiaries')
             ->columns([
                 //
+                Tables\Columns\TextColumn::make('statement_num')->searchable()->sortable(),
                 Tables\Columns\TextColumn::make('fullname')->searchable()->sortable(),
                 Tables\Columns\TextColumn::make('national_id')->searchable()->sortable(),
                 Tables\Columns\TextColumn::make('governate')->searchable()->sortable(),

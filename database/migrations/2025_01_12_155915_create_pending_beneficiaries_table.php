@@ -22,6 +22,7 @@ return new class extends Migration
             $table->string('governate');
             $table->string('project_name')->nullable();
             $table->string('partner')->nullable();
+            $table->string('donor')->nullable();
             $table->integer('transfer_value')->nullable();
             $table->integer('transfer_count')->nullable();
             $table->date('project_start_date')->nullable();
