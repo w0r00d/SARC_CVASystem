@@ -21,64 +21,8 @@ class BeneficiaryViewResource extends Resource
   
     public static function form(Form $form): Form
     {
-        return $form
-            ->schema([
-                Forms\Components\TextInput::make('national_id')
-                    ->required()
-                    ->maxLength(255)
-                    ->default(''),
-                Forms\Components\TextInput::make('fullname')
-                    ->required()
-                    ->maxLength(255)
-                    ->default(''),
-                    /*
-                Forms\Components\TextInput::make('phonenumber')
-                    ->tel()
-                    ->maxLength(255)
-                    ->default(null),
-                Forms\Components\TextInput::make('recipient_name')
-                    ->maxLength(255)
-                    ->default(null),
-                Forms\Components\TextInput::make('recipient_phone')
-                    ->tel()
-                    ->maxLength(255)
-                    ->default(null),
-                Forms\Components\TextInput::make('recipient_nid')
-                    ->maxLength(255)
-                    ->default(null),
-                Forms\Components\TextInput::make('governate')
-                    ->maxLength(255)
-                    ->default(null),
-                Forms\Components\TextInput::make('project_name')
-                    ->maxLength(255)
-                    ->default(null),
-                Forms\Components\TextInput::make('partner')
-                    ->maxLength(255)
-                    ->default(null),
-                Forms\Components\TextInput::make('donor')
-                    ->maxLength(255)
-                    ->default(null),
-                Forms\Components\TextInput::make('transfer_value')
-                    ->numeric()
-                    ->default(null),
-                Forms\Components\TextInput::make('transfer_count')
-                    ->numeric()
-                    ->default(null),
-                Forms\Components\DatePicker::make('project_start_date'),
-                Forms\Components\DatePicker::make('project_end_date'),
-                Forms\Components\DatePicker::make('recieve_date'),
-                Forms\Components\TextInput::make('sector')
-                    ->maxLength(255)
-                    ->default(null),
-                Forms\Components\TextInput::make('modality')
-                    ->maxLength(255)
-                    ->default(null),
-                Forms\Components\TextInput::make('ben')
-                    ->required()
-                    ->maxLength(7)
-                    ->default(''),
-                    */
-            ]);
+       
+        
     }
 
     public static function table(Table $table): Table
@@ -90,9 +34,12 @@ class BeneficiaryViewResource extends Resource
                     ->searchable(),
                 Tables\Columns\TextColumn::make('fullname')
                     ->searchable(),
-/*
+
                 Tables\Columns\TextColumn::make('phonenumber')
                     ->searchable(),
+                    Tables\Columns\TextColumn::make('recipient_nid')
+                    ->searchable(),
+                    /*
                 Tables\Columns\TextColumn::make('recipient_name')
                     ->searchable(),
                 Tables\Columns\TextColumn::make('recipient_phone')
@@ -137,17 +84,16 @@ class BeneficiaryViewResource extends Resource
                 Tables\Columns\TextColumn::make('ben')
                     ->searchable(),
                     */
-            ])
+            ])->striped()
             ->filters([
                 //
             ])
             ->actions([
-                Tables\Actions\EditAction::make(),
+          //      Tables\Actions\EditAction::make(),
             ])
             ->bulkActions([
-                Tables\Actions\BulkActionGroup::make([
-                    Tables\Actions\DeleteBulkAction::make(),
-                ]),
+              //  Tables\Actions\BulkActionGroup::make([
+               //     Tables\Actions\DeleteBulkAction::make(),                ]),
             ]);
     }
     public static function shouldRegisterNavigation(): bool
@@ -160,13 +106,16 @@ class BeneficiaryViewResource extends Resource
             //
         ];
     }
-
+    public static function canCreate(): bool
+    {
+        return false;
+    }
     public static function getPages(): array
     {
         return [
             'index' => Pages\ListBeneficiaryViews::route('/'),
-            'create' => Pages\CreateBeneficiaryView::route('/create'),
-            'edit' => Pages\EditBeneficiaryView::route('/{record}/edit'),
+      //      'create' => Pages\CreateBeneficiaryView::route('/create'),
+         //   'edit' => Pages\EditBeneficiaryView::route('/{record}/edit'),
         ];
     }
 }

@@ -23,11 +23,17 @@ class BeneficiaryGovChart extends ChartWidget
                     Beneficiary::where('governate', 'latakia')->count(),
                     Beneficiary::where('governate', 'tartous')->count(),
                     Beneficiary::where('governate', 'rural damascus')->count(),
+                    Beneficiary::where('governate', 'deir-ez-zor')->count(),
+                    Beneficiary::where('governate', 'Quneitra')->count(),
+                    Beneficiary::where('governate', 'Dar\'a')->count(),
+                    Beneficiary::where('governate', 'Ar-raqqa')->count(),
+                    Beneficiary::where('governate', 'sweida')
+                    ->orWhere('governate', 'as-sweida')->count(),
                 ],
                  
                 ],
             ],
-            'labels' => [ 'Damascus', 'Aleppo', 'Homs', 'Hama','Tartous', 'Latakia', 'Daraa', 'Rural Damascus'],
+            'labels' => [ 'Damascus', 'Aleppo', 'Homs', 'Hama','Tartous', 'Latakia', 'Daraa', 'Rural Damascus','deir-ez-zor','Quneitra','Dar\'a' , 'Ar-raqqa', 'sweida'],
         ];
     }
 

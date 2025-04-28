@@ -41,7 +41,7 @@ class ShowDuplicates extends Component implements HasForms, HasTable
                     //       dump( $data);
                     return $data;
                 } else {
-                    dump('no data');
+                //    dump('no data');
                     return Beneficiary::where('national_id', $this->record->national_id);
                 }
             })

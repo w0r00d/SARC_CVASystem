@@ -122,13 +122,14 @@ class Duplicates extends Component implements HasForms, HasTable
                     */
             ])
             ->striped()
+            ->paginated(50)
             ->modifyQueryUsing(function (Builder $query) {
                 if ($this->changeQ) {
                     //return Beneficiary::query();
                     $this->cnt = BeneficiaryView::getDups()->count();
                     return BeneficiaryView::getDups();
                 } else {
-                    return BeneficiaryView::where('ben', 'pending');
+                    return BeneficiaryView::query()->where('ben', 'pending');
                     //return Beneficiary::query();
                 }
             })
