@@ -9,9 +9,9 @@ class BeneficiaryView extends Model
     //
     protected $table = 'beneficiaries_view';
 
-    protected $primaryKey = 'id'; // now you have a fake ID!
-    public $incrementing = false; // Because it's not auto-incremented by the DB
-    protected $keyType = 'int'; // Because ROW_NUMBER gives integers
+    protected $primaryKey = 'id'; // fake ID
+    public $incrementing = false; // not auto-incremented by the DB
+    protected $keyType = 'int'; // ROW_NUMBER gives integers
 
     public $timestamps = false; // Views typically don't have created_at / updated_at
 

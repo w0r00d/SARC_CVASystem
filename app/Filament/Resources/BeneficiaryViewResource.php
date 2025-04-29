@@ -29,12 +29,10 @@ class BeneficiaryViewResource extends Resource
     {
         return $table
             ->columns([
-            
                 Tables\Columns\TextColumn::make('national_id')
                     ->searchable(),
                 Tables\Columns\TextColumn::make('fullname')
                     ->searchable(),
-
                 Tables\Columns\TextColumn::make('phonenumber')
                     ->searchable(),
                     Tables\Columns\TextColumn::make('recipient_nid')
