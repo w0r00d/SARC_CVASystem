@@ -129,8 +129,8 @@ class Duplicates extends Component implements HasForms, HasTable
                     $this->cnt = BeneficiaryView::getDups()->count();
                     return BeneficiaryView::getDups();
                 } else {
-                    return BeneficiaryView::query()->where('ben', 'pending');
-                    //return Beneficiary::query();
+                   // return BeneficiaryView::query()->where('ben', 'pending');
+                   return PendingBeneficiary::query();
                 }
             })
             ->query(BeneficiaryView::where('ben', 'pending'))

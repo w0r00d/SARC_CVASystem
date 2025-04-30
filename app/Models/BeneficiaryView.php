@@ -3,7 +3,7 @@
 namespace App\Models;
 
 use Illuminate\Database\Eloquent\Model;
-
+use Illuminate\Support\Facades\Cache;
 class BeneficiaryView extends Model
 {
     //
@@ -20,13 +20,15 @@ class BeneficiaryView extends Model
     public static function getDups()
     {
 
+    //    return Cache::remember('duplicate_beneficiaries', 600, function () {
+
         $pen = PendingBeneficiary::pluck('national_id'); // getting emps to find their duplicates
 
         $d = BeneficiaryView::whereIn('national_id', $pen)
          ->orderBy('national_id');
       //  dump($d);
         return $d;
-
+       // });
     }
 
     public  function checkRecord() {
