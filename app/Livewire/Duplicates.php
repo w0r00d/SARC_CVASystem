@@ -150,7 +150,7 @@ class Duplicates extends Component implements HasForms, HasTable
                             Infolists\Components\TextEntry::make('phonenumber')
                                 ->label('Phone number')
                                 ->icon('heroicon-s-phone'),
-                                /*
+                               
                             Infolists\Components\TextEntry::make('recipient_name'),
                             Infolists\Components\TextEntry::make('recipient_nid'),
                             Infolists\Components\TextEntry::make('recipient_phone')
@@ -159,6 +159,7 @@ class Duplicates extends Component implements HasForms, HasTable
                             Infolists\Components\TextEntry::make('partner'),
                             Infolists\Components\TextEntry::make('sector'),
                             Infolists\Components\TextEntry::make('modality'),
+                             /*
                             Infolists\Components\TextEntry::make('project_start_date')
                                 ->icon('heroicon-s-calendar-days'),
                             Infolists\Components\TextEntry::make('project_end_date')
