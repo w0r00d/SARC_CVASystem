@@ -1,4 +1,8 @@
 <?php
+
+echo 'testing';
+
+exit; 
 /*
 use Illuminate\Http\Request;
 
