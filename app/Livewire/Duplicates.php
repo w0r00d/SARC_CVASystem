@@ -77,7 +77,6 @@ class Duplicates extends Component implements HasForms, HasTable
                         'wire:confirm' => 'Are you sure you want to clear pending data? This cannot be undone.',
                     ])
                     ->color('primary'),
-
             ])
             ->heading('Beneficiaries Data')
             ->columns([
