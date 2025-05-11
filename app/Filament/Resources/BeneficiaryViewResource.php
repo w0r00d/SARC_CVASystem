@@ -96,7 +96,7 @@ class BeneficiaryViewResource extends Resource
     }
     public static function shouldRegisterNavigation(): bool
     {
-        return true; // This should return true
+        return false; // This should return true
     }
     public static function getRelations(): array
     {
