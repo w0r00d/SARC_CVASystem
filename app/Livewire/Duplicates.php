@@ -20,6 +20,7 @@ use Filament\Tables\Contracts\HasTable;
 use Filament\Tables\Table;
 use Illuminate\Database\Eloquent\Builder;
 use Livewire\Component;
+use Illuminate\Validation\Rules\File;
 
 class Duplicates extends Component implements HasForms, HasTable
 {
@@ -64,6 +65,17 @@ class Duplicates extends Component implements HasForms, HasTable
                 ImportAction::make('import')
 
                     ->importer(PendingBeneficiaryImporter::class)
+                      ->fileRules([
+    
+        File::types(['text/csv',
+'text/x-csv',
+'application/csv',
+'application/x-csv',
+ 'text/comma-separated-values',
+'text/x-comma-separated-values', 
+'text/plain',
+'application/vnd.ms-excel]'])->max(1024),
+    ])
                     ->label('Upload Pending Beneficiaries'),
                 Tables\Actions\Action::make('Show Duplicates')
                     ->extraAttributes([
@@ -92,12 +104,13 @@ class Duplicates extends Component implements HasForms, HasTable
                         }
                         return [];
                     }),
-                    /*
+                   
                 Tables\Columns\TextColumn::make('governate'),
                 Tables\Columns\TextColumn::make('sector'),
                 Tables\Columns\TextColumn::make('modality'),
                 Tables\Columns\TextColumn::make('ben')
                     ->label('Beneficiary Type'),
+                     /*
                 Tables\Columns\TextColumn::make('created_at')
                     ->label('ct')->date(),
                 Tables\Columns\IconColumn::make('ben')
@@ -124,8 +137,8 @@ class Duplicates extends Component implements HasForms, HasTable
             ->paginated(50)
             ->modifyQueryUsing(function (Builder $query) {
                 if ($this->changeQ) {
-                    //return Beneficiary::query();
-                    $this->cnt = BeneficiaryView::getDups()->count();
+                  //return Beneficiary::query();
+                 //   $this->cnt = BeneficiaryView::getDups()->count();
                     return BeneficiaryView::getDups();
                 } else {
                    // return BeneficiaryView::query()->where('ben', 'pending');

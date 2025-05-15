@@ -156,8 +156,9 @@ class BeneficiaryResource extends Resource
                 Tables\Columns\TextColumn::make('national_id')->searchable()->sortable(),
                 Tables\Columns\TextColumn::make('governate')->searchable()->sortable(),
                 Tables\Columns\TextColumn::make('sector')->searchable()->sortable(),
-                //   Tables\Columns\TextColumn::make('modality')->searchable()->sortable(),
+                   Tables\Columns\TextColumn::make('modality')->searchable()->sortable(),
                 Tables\Columns\TextColumn::make('project_name')->searchable()->sortable(),
+                  Tables\Columns\TextColumn::make('donor')->searchable()->sortable(),
                 Tables\Columns\TextColumn::make('created_at')->date()->searchable()->sortable()
                 ->toggleable(isToggledHiddenByDefault: true),
             ])->striped()

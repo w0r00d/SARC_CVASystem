@@ -22,9 +22,9 @@ class BeneficiaryView extends Model
 
     //    return Cache::remember('duplicate_beneficiaries', 600, function () {
 
-        $pen = PendingBeneficiary::pluck('national_id'); // getting emps to find their duplicates
+        //$pen = PendingBeneficiary::pluck('national_id'); // getting emps to find their duplicates
 
-        $d = BeneficiaryView::whereIn('national_id', $pen)
+        $d = BeneficiaryView::whereIn('national_id', PendingBeneficiary::pluck('national_id'))
          ->orderBy('national_id');
       //  dump($d);
         return $d;
